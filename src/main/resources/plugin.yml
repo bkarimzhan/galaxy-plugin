@@ -22,6 +22,14 @@ commands:
     description: Fallback teleport to space when stuck on a planet.
     permission: galaxy.command.leaveplanet
     usage: /leaveplanet
+  goto:
+    description: Teleport directly to a planet world.
+    permission: galaxy.command.goto
+    usage: /goto <planet>
+  planets:
+    description: List all planets with distances from your current position.
+    permission: galaxy.command.planets
+    usage: /planets
 permissions:
   galaxy.command.space:
     default: op
@@ -30,4 +38,8 @@ permissions:
   galaxy.command.unship:
     default: true
   galaxy.command.leaveplanet:
+    default: true
+  galaxy.command.goto:
+    default: true
+  galaxy.command.planets:
     default: true

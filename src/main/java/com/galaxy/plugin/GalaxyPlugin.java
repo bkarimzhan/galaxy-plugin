@@ -1,6 +1,8 @@
 package com.galaxy.plugin;
 
+import com.galaxy.plugin.commands.GotoCommand;
 import com.galaxy.plugin.commands.LeavePlanetCommand;
+import com.galaxy.plugin.commands.PlanetsCommand;
 import com.galaxy.plugin.commands.ShipCommand;
 import com.galaxy.plugin.commands.SpaceCommand;
 import com.galaxy.plugin.commands.UnshipCommand;
@@ -100,6 +102,10 @@ public final class GalaxyPlugin extends JavaPlugin {
         getCommand("ship").setExecutor(new ShipCommand(shipController));
         getCommand("unship").setExecutor(new UnshipCommand(shipController));
         getCommand("leaveplanet").setExecutor(new LeavePlanetCommand(teleportService, planetManager));
+        GotoCommand gotoCmd = new GotoCommand(teleportService, planetManager);
+        getCommand("goto").setExecutor(gotoCmd);
+        getCommand("goto").setTabCompleter(gotoCmd);
+        getCommand("planets").setExecutor(new PlanetsCommand(teleportService, planetManager));
 
         getLogger().info("Galaxy plugin enabled. Worlds: " + spaceWorld.getName()
                 + ", " + planetEarth.getName() + ", " + planetMars.getName());
