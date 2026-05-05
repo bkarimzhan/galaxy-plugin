@@ -46,10 +46,10 @@ public final class SphereBuilder {
 
     private void buildStar(World w) {
         Location star = new Location(w, 0, 100, 0);
-        int r = 18;
+        int r = 28;
         int r2 = r * r;
-        int rOuter2 = (r - 2) * (r - 2);
-        int rCore2 = 6 * 6;
+        int rOuter2 = (r - 3) * (r - 3);
+        int rCore2 = 10 * 10;
         int placed = 0;
         for (int dx = -r; dx <= r; dx++) {
             for (int dy = -r; dy <= r; dy++) {
@@ -87,14 +87,35 @@ public final class SphereBuilder {
                 for (int dz = -r; dz <= r; dz++) {
                     int d2 = dx * dx + dy * dy + dz * dz;
                     if (d2 <= r2 && d2 > r2Inner) {
-                        setBlock(w, c.getBlockX() + dx, c.getBlockY() + dy, c.getBlockZ() + dz, p.sphereShell());
+                        Material m = PlanetTexture.at(p.id(), dx, dy, dz, r, p.sphereShell());
+                        setBlock(w, c.getBlockX() + dx, c.getBlockY() + dy, c.getBlockZ() + dz, m);
                     }
                 }
             }
         }
         setBlock(w, c.getBlockX(), c.getBlockY(), c.getBlockZ(), p.sphereCore());
 
+        if ("saturn".equals(p.id())) {
+            buildSaturnRing(w, c, r);
+        }
+
         log.info("Mini-sphere '" + p.id() + "' built at " + c.toVector() + " r=" + r);
+    }
+
+    private void buildSaturnRing(World w, Location c, int planetRadius) {
+        int rInner = planetRadius + 4;
+        int rOuter = planetRadius + 9;
+        int rInner2 = rInner * rInner;
+        int rOuter2 = rOuter * rOuter;
+        for (int dx = -rOuter; dx <= rOuter; dx++) {
+            for (int dz = -rOuter; dz <= rOuter; dz++) {
+                int d2 = dx * dx + dz * dz;
+                if (d2 < rInner2 || d2 > rOuter2) continue;
+                Material m = ((dx + dz) & 1) == 0 ? Material.SMOOTH_SANDSTONE : Material.SANDSTONE;
+                setBlock(w, c.getBlockX() + dx, c.getBlockY(), c.getBlockZ() + dz, m);
+            }
+        }
+        log.info("Saturn ring built at " + c.toVector() + " inner=" + rInner + " outer=" + rOuter);
     }
 
     private void wipeEndStructures(World w) {
@@ -106,9 +127,9 @@ public final class SphereBuilder {
                 }
             }
         }
-        for (int x = -28; x <= 28; x++) {
-            for (int z = -28; z <= 28; z++) {
-                for (int y = 70; y <= 80; y++) {
+        for (int x = -36; x <= 36; x++) {
+            for (int z = -36; z <= 36; z++) {
+                for (int y = 60; y <= 80; y++) {
                     if (clearIfNotAir(w, x, y, z)) wiped++;
                 }
             }

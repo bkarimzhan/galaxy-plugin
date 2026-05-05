@@ -1,15 +1,14 @@
 # Galaxy plugin — planet definitions.
-# Sun at origin. Planets distributed around it at real-life-proportional
-# orbital radii but at varied angles (snapshot of an arbitrary moment).
+# Sun at origin. Planets at varied orbital angles, sizes scaled larger.
 
 planets:
   sun:
     world: planet_sun
     sphere:
       center: [0, 100, 0]
-      radius: 18
-      shell: ORANGE_CONCRETE
-      core: YELLOW_CONCRETE
+      radius: 28
+      shell: SHROOMLIGHT
+      core: GLOWSTONE
       skipBuild: true
     spawn:
       location: [0, 80, 0]
@@ -17,8 +16,8 @@ planets:
   mercury:
     world: planet_mercury
     sphere:
-      center: [25, 100, 17]
-      radius: 4
+      center: [41, 100, 29]
+      radius: 6
       shell: STONE
       core: REDSTONE_BLOCK
     spawn:
@@ -27,8 +26,8 @@ planets:
   venus:
     world: planet_venus
     sphere:
-      center: [-19, 100, 52]
-      radius: 7
+      center: [-31, 100, 85]
+      radius: 11
       shell: ORANGE_TERRACOTTA
       core: MAGMA_BLOCK
     spawn:
@@ -37,9 +36,9 @@ planets:
   earth:
     world: planet_earth
     sphere:
-      center: [-80, 100, -29]
-      radius: 9
-      shell: GREEN_CONCRETE
+      center: [-132, 100, -48]
+      radius: 14
+      shell: BLUE_CONCRETE
       core: SEA_LANTERN
     spawn:
       location: [0, 81, 0]
@@ -47,8 +46,8 @@ planets:
   mars:
     world: planet_mars
     sphere:
-      center: [20, 100, -113]
-      radius: 5
+      center: [34, 100, -192]
+      radius: 8
       shell: RED_CONCRETE
       core: REDSTONE_BLOCK
     spawn:
@@ -57,18 +56,18 @@ planets:
   jupiter:
     world: planet_jupiter
     sphere:
-      center: [106, 100, 126]
-      radius: 14
-      shell: WHITE_TERRACOTTA
-      core: ORANGE_TERRACOTTA
+      center: [180, 100, 214]
+      radius: 22
+      shell: ORANGE_TERRACOTTA
+      core: BROWN_TERRACOTTA
     spawn:
       location: [0, 66, 0]
       yaw: 0.0
   saturn:
     world: planet_saturn
     sphere:
-      center: [-141, 100, 169]
-      radius: 12
+      center: [-235, 100, 280]
+      radius: 18
       shell: SMOOTH_SANDSTONE
       core: SANDSTONE
     spawn:
@@ -77,9 +76,9 @@ planets:
   uranus:
     world: planet_uranus
     sphere:
-      center: [-203, 100, -170]
-      radius: 8
-      shell: PACKED_ICE
+      center: [-329, 100, -276]
+      radius: 13
+      shell: LIGHT_BLUE_CONCRETE
       core: BLUE_ICE
     spawn:
       location: [0, 66, 0]
@@ -87,9 +86,9 @@ planets:
   neptune:
     world: planet_neptune
     sphere:
-      center: [199, 100, -237]
-      radius: 8
-      shell: BLUE_ICE
+      center: [315, 100, -375]
+      radius: 13
+      shell: BLUE_CONCRETE
       core: PACKED_ICE
     spawn:
       location: [0, 66, 0]
