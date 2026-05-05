@@ -34,7 +34,7 @@ public final class WorldBootstrap {
         DatapackInstaller.installFor(plugin, PLANET_EARTH);
         WorldCreator c = new WorldCreator(SPACE)
                 .generator(new SpaceChunkGenerator())
-                .environment(World.Environment.NORMAL)
+                .environment(World.Environment.THE_END)
                 .type(WorldType.FLAT)
                 .generateStructures(false);
         World w = Bukkit.createWorld(c);
