@@ -23,7 +23,7 @@ commands:
     permission: galaxy.command.leaveplanet
     usage: /leaveplanet
   goto:
-    description: Teleport directly to a planet world.
+    description: Warp to the orbit of a planet (in space, near its mini-sphere).
     permission: galaxy.command.goto
     usage: /goto <planet>
   planets:

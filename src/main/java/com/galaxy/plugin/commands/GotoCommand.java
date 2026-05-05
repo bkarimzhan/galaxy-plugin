@@ -33,8 +33,8 @@ public final class GotoCommand extends PlayerCommand implements TabCompleter {
             player.sendMessage("Unknown planet '" + args[0] + "'. /planets for the list.");
             return;
         }
-        teleport.toPlanet(player, target);
-        player.sendMessage("Warping to " + target.id() + ".");
+        teleport.toOrbit(player, target);
+        player.sendMessage("Entering orbit of " + target.id() + ". Approach the sphere to land.");
     }
 
     @Override

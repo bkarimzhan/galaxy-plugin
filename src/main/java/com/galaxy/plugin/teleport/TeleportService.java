@@ -69,6 +69,22 @@ public final class TeleportService {
         log.info("Teleport " + player.getName() + " → " + planet.id() + " @ " + target.toVector());
     }
 
+    public void toOrbit(Player player, Planet planet) {
+        Location c = planet.sphereCenter();
+        Location target = new Location(spaceWorld,
+                c.getX(), c.getY(), c.getZ() + planet.sphereRadius() + 12,
+                180f, 0f);
+        if (ships != null && ships.isShip(player.getVehicle())) {
+            ships.dismountAndDespawn(player);
+        } else if (player.getVehicle() != null) {
+            player.leaveVehicle();
+        }
+        player.teleport(target);
+        player.setVelocity(new Vector(0, 0, 0));
+        if (ships != null) ships.spawnAndSeat(player);
+        log.info("Teleport " + player.getName() + " → orbit of " + planet.id() + " @ " + target.toVector());
+    }
+
     public boolean isInSpace(Player p) {
         return p.getWorld().getName().equals(spaceWorld.getName());
     }
