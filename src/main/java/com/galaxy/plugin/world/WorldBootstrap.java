@@ -115,6 +115,7 @@ public final class WorldBootstrap {
         w.getWorldBorder().setCenter(0, 0);
         w.getWorldBorder().setSize(1000);
         w.setGameRule(org.bukkit.GameRule.DO_MOB_SPAWNING, false);
+        purgeMonsters(w);
         log.info("World '" + PLANET_MARS + "' ready (flat desert, border 1000, lifeless).");
         return w;
     }
@@ -150,7 +151,19 @@ public final class WorldBootstrap {
         w.getWorldBorder().setCenter(0, 0);
         w.getWorldBorder().setSize(borderSize);
         w.setGameRule(org.bukkit.GameRule.DO_MOB_SPAWNING, false);
+        purgeMonsters(w);
         log.info("World '" + name + "' ready (" + label + ", border " + borderSize + ", lifeless).");
         return w;
+    }
+
+    private void purgeMonsters(World w) {
+        int killed = 0;
+        for (org.bukkit.entity.Entity e : w.getEntities()) {
+            if (e instanceof org.bukkit.entity.Monster) {
+                e.remove();
+                killed++;
+            }
+        }
+        if (killed > 0) log.info("Purged " + killed + " stale monster(s) from '" + w.getName() + "'.");
     }
 }
