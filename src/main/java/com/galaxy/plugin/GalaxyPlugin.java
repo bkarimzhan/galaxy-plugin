@@ -6,6 +6,7 @@ import com.galaxy.plugin.commands.PlanetsCommand;
 import com.galaxy.plugin.commands.ShipCommand;
 import com.galaxy.plugin.commands.SpaceCommand;
 import com.galaxy.plugin.commands.UnshipCommand;
+import com.galaxy.plugin.listeners.EndStructureCleanup;
 import com.galaxy.plugin.listeners.ProximityTask;
 import com.galaxy.plugin.listeners.SightTask;
 import com.galaxy.plugin.listeners.SpaceMobGuard;
@@ -90,6 +91,8 @@ public final class GalaxyPlugin extends JavaPlugin {
                 this);
         getServer().getPluginManager().registerEvents(
                 new SpaceMobGuard(spaceWorld.getName()), this);
+        getServer().getPluginManager().registerEvents(
+                new EndStructureCleanup(this, spaceWorld.getName()), this);
 
         teleportService = new TeleportService(getLogger(), spaceWorld, planetManager);
 
