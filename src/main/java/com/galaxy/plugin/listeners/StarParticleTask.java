@@ -2,6 +2,7 @@ package com.galaxy.plugin.listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -10,9 +11,9 @@ import java.util.Random;
 
 public final class StarParticleTask extends BukkitRunnable {
 
-    private static final int PARTICLES_PER_TICK = 8;
+    private static final int PARTICLES_PER_TICK = 12;
     private static final long PERIOD_TICKS = 10L;
-    private static final double R_MIN = 60;
+    private static final double R_MIN = 50;
     private static final double R_MAX = 220;
 
     private final String spaceWorldName;
@@ -32,6 +33,7 @@ public final class StarParticleTask extends BukkitRunnable {
     public void run() {
         for (Player p : Bukkit.getOnlinePlayers()) {
             if (!p.getWorld().getName().equals(spaceWorldName)) continue;
+            World w = p.getWorld();
             double px = p.getLocation().getX();
             double py = p.getLocation().getY();
             double pz = p.getLocation().getZ();
@@ -42,7 +44,7 @@ public final class StarParticleTask extends BukkitRunnable {
                 double x = px + r * Math.cos(phi) * Math.cos(theta);
                 double y = py + r * Math.sin(phi);
                 double z = pz + r * Math.cos(phi) * Math.sin(theta);
-                p.spawnParticle(Particle.END_ROD, x, y, z, 1, 0, 0, 0, 0);
+                w.spawnParticle(Particle.END_ROD, x, y, z, 1, 0, 0, 0, 0, null, true);
             }
         }
     }
