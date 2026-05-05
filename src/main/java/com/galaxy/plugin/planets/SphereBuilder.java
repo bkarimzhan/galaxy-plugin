@@ -46,10 +46,10 @@ public final class SphereBuilder {
 
     private void buildStar(World w) {
         Location star = new Location(w, 0, 100, 0);
-        int r = 28;
+        int r = 18;
         int r2 = r * r;
-        int rOuter2 = (r - 3) * (r - 3);
-        int rCore2 = 10 * 10;
+        int rOuter2 = (r - 2) * (r - 2);
+        int rCore2 = 6 * 6;
         int placed = 0;
         for (int dx = -r; dx <= r; dx++) {
             for (int dy = -r; dy <= r; dy++) {

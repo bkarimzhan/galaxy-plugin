@@ -21,7 +21,7 @@ public final class EndStructureCleanup implements Listener {
     }
 
     private static final int SUN_CX = 0, SUN_CY = 100, SUN_CZ = 0;
-    private static final int SUN_R2 = 28 * 28;
+    private static final int SUN_R2 = 18 * 18;
 
     @EventHandler
     public void onChunkLoad(ChunkLoadEvent ev) {

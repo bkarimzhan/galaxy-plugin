@@ -1,12 +1,13 @@
 # Galaxy plugin — planet definitions.
-# Sun at origin. Planets at varied orbital angles, sizes scaled larger.
+# Compact layout — entire system within 150-block "battle zone" from origin.
+# Sun r=18 at centre, Neptune (outermost) edge at 147 blocks from origin.
 
 planets:
   sun:
     world: planet_sun
     sphere:
       center: [0, 100, 0]
-      radius: 28
+      radius: 18
       shell: SHROOMLIGHT
       core: GLOWSTONE
       skipBuild: true
@@ -16,8 +17,8 @@ planets:
   mercury:
     world: planet_mercury
     sphere:
-      center: [41, 100, 29]
-      radius: 6
+      center: [22, 100, 15]
+      radius: 3
       shell: STONE
       core: REDSTONE_BLOCK
     spawn:
@@ -26,8 +27,8 @@ planets:
   venus:
     world: planet_venus
     sphere:
-      center: [-31, 100, 85]
-      radius: 11
+      center: [-13, 100, 36]
+      radius: 5
       shell: ORANGE_TERRACOTTA
       core: MAGMA_BLOCK
     spawn:
@@ -36,9 +37,9 @@ planets:
   earth:
     world: planet_earth
     sphere:
-      center: [-132, 100, -48]
-      radius: 14
-      shell: BLUE_CONCRETE
+      center: [-49, 100, -18]
+      radius: 6
+      shell: GREEN_CONCRETE
       core: SEA_LANTERN
     spawn:
       location: [0, 81, 0]
@@ -46,8 +47,8 @@ planets:
   mars:
     world: planet_mars
     sphere:
-      center: [34, 100, -192]
-      radius: 8
+      center: [11, 100, -64]
+      radius: 3
       shell: RED_CONCRETE
       core: REDSTONE_BLOCK
     spawn:
@@ -56,8 +57,8 @@ planets:
   jupiter:
     world: planet_jupiter
     sphere:
-      center: [180, 100, 214]
-      radius: 22
+      center: [55, 100, 65]
+      radius: 8
       shell: ORANGE_TERRACOTTA
       core: BROWN_TERRACOTTA
     spawn:
@@ -66,8 +67,8 @@ planets:
   saturn:
     world: planet_saturn
     sphere:
-      center: [-235, 100, 280]
-      radius: 18
+      center: [-67, 100, 80]
+      radius: 7
       shell: SMOOTH_SANDSTONE
       core: SANDSTONE
     spawn:
@@ -76,8 +77,8 @@ planets:
   uranus:
     world: planet_uranus
     sphere:
-      center: [-329, 100, -276]
-      radius: 13
+      center: [-96, 100, -80]
+      radius: 5
       shell: LIGHT_BLUE_CONCRETE
       core: BLUE_ICE
     spawn:
@@ -86,8 +87,8 @@ planets:
   neptune:
     world: planet_neptune
     sphere:
-      center: [315, 100, -375]
-      radius: 13
+      center: [91, 100, -109]
+      radius: 5
       shell: BLUE_CONCRETE
       core: PACKED_ICE
     spawn:
