@@ -1,15 +1,5 @@
 # Galaxy plugin — planet definitions.
-#
-# Each entry under `planets:` defines:
-#   world           — name of the bukkit World this planet uses.
-#   sphere:
-#     center: [x, y, z]      — coordinates of the mini-sphere's center in `space` world.
-#     radius                  — radius of the mini-sphere shell, in blocks.
-#     shell                   — block material used for the shell.
-#     core                    — block material used for the central core (single block).
-#   spawn:
-#     location: [x, y, z]    — where the player spawns when teleporting INTO this planet.
-#     yaw                     — facing yaw, degrees.
+# Order matches the real solar system. All on +x axis, sun at (0,100,0).
 
 planets:
   sun:
@@ -23,11 +13,31 @@ planets:
     spawn:
       location: [0, 80, 0]
       yaw: 0.0
+  mercury:
+    world: planet_mercury
+    sphere:
+      center: [30, 100, 0]
+      radius: 4
+      shell: STONE
+      core: REDSTONE_BLOCK
+    spawn:
+      location: [0, 66, 0]
+      yaw: 0.0
+  venus:
+    world: planet_venus
+    sphere:
+      center: [55, 100, 0]
+      radius: 7
+      shell: ORANGE_TERRACOTTA
+      core: MAGMA_BLOCK
+    spawn:
+      location: [0, 66, 0]
+      yaw: 0.0
   earth:
     world: planet_earth
     sphere:
-      center: [-55, 100, 0]
-      radius: 10
+      center: [85, 100, 0]
+      radius: 9
       shell: GREEN_CONCRETE
       core: SEA_LANTERN
     spawn:
@@ -36,10 +46,50 @@ planets:
   mars:
     world: planet_mars
     sphere:
-      center: [70, 100, 0]
-      radius: 6
+      center: [115, 100, 0]
+      radius: 5
       shell: RED_CONCRETE
-      core: SEA_LANTERN
+      core: REDSTONE_BLOCK
+    spawn:
+      location: [0, 66, 0]
+      yaw: 0.0
+  jupiter:
+    world: planet_jupiter
+    sphere:
+      center: [165, 100, 0]
+      radius: 14
+      shell: WHITE_TERRACOTTA
+      core: ORANGE_TERRACOTTA
+    spawn:
+      location: [0, 66, 0]
+      yaw: 0.0
+  saturn:
+    world: planet_saturn
+    sphere:
+      center: [220, 100, 0]
+      radius: 12
+      shell: SMOOTH_SANDSTONE
+      core: SANDSTONE
+    spawn:
+      location: [0, 66, 0]
+      yaw: 0.0
+  uranus:
+    world: planet_uranus
+    sphere:
+      center: [265, 100, 0]
+      radius: 8
+      shell: PACKED_ICE
+      core: BLUE_ICE
+    spawn:
+      location: [0, 66, 0]
+      yaw: 0.0
+  neptune:
+    world: planet_neptune
+    sphere:
+      center: [310, 100, 0]
+      radius: 8
+      shell: BLUE_ICE
+      core: PACKED_ICE
     spawn:
       location: [0, 66, 0]
       yaw: 0.0

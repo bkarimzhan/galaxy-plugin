@@ -11,9 +11,12 @@ import com.galaxy.plugin.planets.PlanetManager;
 import com.galaxy.plugin.planets.SphereBuilder;
 import com.galaxy.plugin.ship.ShipController;
 import com.galaxy.plugin.teleport.TeleportService;
+import com.galaxy.plugin.world.FlatPlanetGenerator;
 import com.galaxy.plugin.world.LavaChunkGenerator;
 import com.galaxy.plugin.world.SpawnPlatform;
 import com.galaxy.plugin.world.WorldBootstrap;
+import org.bukkit.Material;
+import org.bukkit.block.Biome;
 import org.bukkit.World;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -45,6 +48,12 @@ public final class GalaxyPlugin extends JavaPlugin {
         planetEarth = wb.createPlanetEarth();
         planetMars = wb.createPlanetMars();
         planetSun = wb.createPlanetSun();
+        wb.createFlatPlanet(WorldBootstrap.PLANET_MERCURY, mercuryGen(), 65, 500, "stone-rocky");
+        wb.createFlatPlanet(WorldBootstrap.PLANET_VENUS, venusGen(), 65, 500, "granite-volcanic");
+        wb.createFlatPlanet(WorldBootstrap.PLANET_JUPITER, jupiterGen(), 65, 500, "gas-giant");
+        wb.createFlatPlanet(WorldBootstrap.PLANET_SATURN, saturnGen(), 65, 500, "gas-giant");
+        wb.createFlatPlanet(WorldBootstrap.PLANET_URANUS, uranusGen(), 65, 500, "ice-giant");
+        wb.createFlatPlanet(WorldBootstrap.PLANET_NEPTUNE, neptuneGen(), 65, 500, "ice-giant");
 
         if (spaceWorld == null || planetEarth == null || planetMars == null || planetSun == null) {
             getLogger().severe("Galaxy: world bootstrap failed — disabling plugin.");
@@ -102,11 +111,26 @@ public final class GalaxyPlugin extends JavaPlugin {
 
     @Override
     public @Nullable ChunkGenerator getDefaultWorldGenerator(@NotNull String worldName, @Nullable String id) {
-        if (WorldBootstrap.SPACE.equals(worldName)) return new SpaceChunkGenerator();
-        if (WorldBootstrap.PLANET_MARS.equals(worldName)) return new DesertChunkGenerator();
-        if (WorldBootstrap.PLANET_SUN.equals(worldName)) return new LavaChunkGenerator();
-        return null;
+        return switch (worldName) {
+            case WorldBootstrap.SPACE -> new SpaceChunkGenerator();
+            case WorldBootstrap.PLANET_MARS -> new DesertChunkGenerator();
+            case WorldBootstrap.PLANET_SUN -> new LavaChunkGenerator();
+            case WorldBootstrap.PLANET_MERCURY -> mercuryGen();
+            case WorldBootstrap.PLANET_VENUS -> venusGen();
+            case WorldBootstrap.PLANET_JUPITER -> jupiterGen();
+            case WorldBootstrap.PLANET_SATURN -> saturnGen();
+            case WorldBootstrap.PLANET_URANUS -> uranusGen();
+            case WorldBootstrap.PLANET_NEPTUNE -> neptuneGen();
+            default -> null;
+        };
     }
+
+    private static FlatPlanetGenerator mercuryGen() { return new FlatPlanetGenerator(Material.STONE, Material.STONE, Biome.STONY_PEAKS); }
+    private static FlatPlanetGenerator venusGen()   { return new FlatPlanetGenerator(Material.GRANITE, Material.STONE, Biome.SAVANNA); }
+    private static FlatPlanetGenerator jupiterGen() { return new FlatPlanetGenerator(Material.WHITE_TERRACOTTA, Material.ORANGE_TERRACOTTA, Biome.WARM_OCEAN); }
+    private static FlatPlanetGenerator saturnGen()  { return new FlatPlanetGenerator(Material.SMOOTH_SANDSTONE, Material.SANDSTONE, Biome.WARM_OCEAN); }
+    private static FlatPlanetGenerator uranusGen()  { return new FlatPlanetGenerator(Material.PACKED_ICE, Material.BLUE_ICE, Biome.FROZEN_OCEAN); }
+    private static FlatPlanetGenerator neptuneGen() { return new FlatPlanetGenerator(Material.BLUE_ICE, Material.PACKED_ICE, Biome.DEEP_FROZEN_OCEAN); }
 
     public World getSpaceWorld() { return spaceWorld; }
     public World getPlanetEarth() { return planetEarth; }

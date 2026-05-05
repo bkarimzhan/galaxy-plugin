@@ -2,9 +2,12 @@ package com.galaxy.plugin.world;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
+import org.bukkit.block.Biome;
+import org.bukkit.generator.ChunkGenerator;
 
 import java.util.logging.Logger;
 
@@ -14,6 +17,12 @@ public final class WorldBootstrap {
     public static final String PLANET_EARTH = "planet_earth";
     public static final String PLANET_MARS = "planet_mars";
     public static final String PLANET_SUN = "planet_sun";
+    public static final String PLANET_MERCURY = "planet_mercury";
+    public static final String PLANET_VENUS = "planet_venus";
+    public static final String PLANET_JUPITER = "planet_jupiter";
+    public static final String PLANET_SATURN = "planet_saturn";
+    public static final String PLANET_URANUS = "planet_uranus";
+    public static final String PLANET_NEPTUNE = "planet_neptune";
 
     private final Logger log;
 
@@ -119,6 +128,23 @@ public final class WorldBootstrap {
         w.getWorldBorder().setCenter(0, 0);
         w.getWorldBorder().setSize(500);
         log.info("World '" + PLANET_SUN + "' ready (lava ocean, border 500).");
+        return w;
+    }
+
+    public World createFlatPlanet(String name, ChunkGenerator gen, int spawnY, int borderSize, String label) {
+        WorldCreator c = new WorldCreator(name)
+                .generator(gen)
+                .type(WorldType.FLAT)
+                .generateStructures(false);
+        World w = Bukkit.createWorld(c);
+        if (w == null) {
+            log.severe("Failed to create world '" + name + "'");
+            return null;
+        }
+        w.setSpawnLocation(new Location(w, 0, spawnY, 0));
+        w.getWorldBorder().setCenter(0, 0);
+        w.getWorldBorder().setSize(borderSize);
+        log.info("World '" + name + "' ready (" + label + ", border " + borderSize + ").");
         return w;
     }
 }
