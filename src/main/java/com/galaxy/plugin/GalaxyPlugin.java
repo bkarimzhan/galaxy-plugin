@@ -22,6 +22,7 @@ import com.galaxy.plugin.teleport.TeleportService;
 import com.galaxy.plugin.world.FlatPlanetGenerator;
 import com.galaxy.plugin.world.LavaChunkGenerator;
 import com.galaxy.plugin.world.SpawnPlatform;
+import com.galaxy.plugin.world.TerrainPlanetGenerator;
 import com.galaxy.plugin.world.WorldBootstrap;
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
@@ -153,12 +154,33 @@ public final class GalaxyPlugin extends JavaPlugin {
         };
     }
 
-    private static FlatPlanetGenerator mercuryGen() { return new FlatPlanetGenerator(Material.STONE, Material.STONE, Biome.STONY_PEAKS); }
-    private static FlatPlanetGenerator venusGen()   { return new FlatPlanetGenerator(Material.GRANITE, Material.STONE, Biome.SAVANNA); }
+    private static TerrainPlanetGenerator mercuryGen() {
+        return new TerrainPlanetGenerator(new TerrainPlanetGenerator.Profile(
+                Material.COBBLED_DEEPSLATE, Material.STONE, Material.BASALT,
+                64, 14, 0.05, 4, 0.18, 75, Biome.STONY_PEAKS));
+    }
+    private static TerrainPlanetGenerator venusGen() {
+        return new TerrainPlanetGenerator(new TerrainPlanetGenerator.Profile(
+                Material.TUFF, Material.GRANITE, Material.MAGMA_BLOCK,
+                64, 6, 0.04, 2, 0.15, 70, Biome.SAVANNA));
+    }
+    private static TerrainPlanetGenerator marsGen() {
+        return new TerrainPlanetGenerator(new TerrainPlanetGenerator.Profile(
+                Material.RED_SAND, Material.RED_SANDSTONE, Material.RED_TERRACOTTA,
+                64, 22, 0.04, 6, 0.12, 80, Biome.BADLANDS));
+    }
     private static FlatPlanetGenerator jupiterGen() { return new FlatPlanetGenerator(Material.WHITE_TERRACOTTA, Material.ORANGE_TERRACOTTA, Biome.WARM_OCEAN); }
     private static FlatPlanetGenerator saturnGen()  { return new FlatPlanetGenerator(Material.SMOOTH_SANDSTONE, Material.SANDSTONE, Biome.WARM_OCEAN); }
-    private static FlatPlanetGenerator uranusGen()  { return new FlatPlanetGenerator(Material.PACKED_ICE, Material.BLUE_ICE, Biome.FROZEN_OCEAN); }
-    private static FlatPlanetGenerator neptuneGen() { return new FlatPlanetGenerator(Material.BLUE_ICE, Material.PACKED_ICE, Biome.DEEP_FROZEN_OCEAN); }
+    private static TerrainPlanetGenerator uranusGen() {
+        return new TerrainPlanetGenerator(new TerrainPlanetGenerator.Profile(
+                Material.PACKED_ICE, Material.BLUE_ICE, Material.ICE,
+                64, 8, 0.04, 3, 0.16, 70, Biome.FROZEN_OCEAN));
+    }
+    private static TerrainPlanetGenerator neptuneGen() {
+        return new TerrainPlanetGenerator(new TerrainPlanetGenerator.Profile(
+                Material.BLUE_ICE, Material.PACKED_ICE, Material.ICE,
+                64, 10, 0.04, 3, 0.16, 73, Biome.DEEP_FROZEN_OCEAN));
+    }
 
     public World getSpaceWorld() { return spaceWorld; }
     public World getPlanetEarth() { return planetEarth; }
