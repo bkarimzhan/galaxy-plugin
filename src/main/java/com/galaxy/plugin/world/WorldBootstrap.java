@@ -42,9 +42,9 @@ public final class WorldBootstrap {
         w.setGameRule(org.bukkit.GameRule.DO_DAYLIGHT_CYCLE, false);
         w.setTime(18000);
         try {
-            w.setViewDistance(20);
+            w.setViewDistance(32);
             w.setSimulationDistance(6);
-            w.setSendViewDistance(20);
+            w.setSendViewDistance(32);
         } catch (Throwable t) {
             log.warning("Could not set extended view-distance for '" + SPACE + "': " + t.getMessage());
         }

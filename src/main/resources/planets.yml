@@ -16,7 +16,7 @@ planets:
     world: planet_sun
     sphere:
       center: [0, 100, 0]
-      radius: 24
+      radius: 18
       shell: SHROOMLIGHT
       core: GLOWSTONE
       skipBuild: true   # buildStar already constructs the visual sun
@@ -26,7 +26,7 @@ planets:
   earth:
     world: planet_earth
     sphere:
-      center: [-90, 100, 0]
+      center: [-55, 100, 0]
       radius: 10
       shell: GREEN_CONCRETE
       core: SEA_LANTERN
@@ -36,7 +36,7 @@ planets:
   mars:
     world: planet_mars
     sphere:
-      center: [150, 100, 0]
+      center: [70, 100, 0]
       radius: 6
       shell: RED_CONCRETE
       core: SEA_LANTERN

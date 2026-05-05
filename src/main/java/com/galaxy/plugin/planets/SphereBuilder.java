@@ -47,10 +47,10 @@ public final class SphereBuilder {
 
     private void buildStar(World w) {
         Location star = new Location(w, 0, 100, 0);
-        int r = 24;
+        int r = 18;
         int r2 = r * r;
-        int rOuter2 = (r - 3) * (r - 3);
-        int rCore2 = 8 * 8;
+        int rOuter2 = (r - 2) * (r - 2);
+        int rCore2 = 6 * 6;
         int placed = 0;
         for (int dx = -r; dx <= r; dx++) {
             for (int dy = -r; dy <= r; dy++) {
@@ -126,24 +126,27 @@ public final class SphereBuilder {
 
     private void scatterStars(World w, Iterable<Planet> planets) {
         Random rng = new Random(0xC051B33EL);
-        int count = 80;
+        int count = 60;
         int placed = 0;
         for (int i = 0; i < count * 4 && placed < count; i++) {
-            double r = 140 + rng.nextDouble() * 120;
+            double r = 90 + rng.nextDouble() * 80;
             double theta = rng.nextDouble() * Math.PI * 2;
             double phi = (rng.nextDouble() - 0.5) * Math.PI;
-            int x = (int) (r * Math.cos(phi) * Math.cos(theta));
-            int y = 100 + (int) (r * Math.sin(phi));
-            int z = (int) (r * Math.cos(phi) * Math.sin(theta));
+            int cx = (int) (r * Math.cos(phi) * Math.cos(theta));
+            int cy = 100 + (int) (r * Math.sin(phi));
+            int cz = (int) (r * Math.cos(phi) * Math.sin(theta));
 
-            if (y < -50 || y > 250) continue;
-            if (insideAnyPlanet(x, y, z, planets, 25)) continue;
+            if (cy < -20 || cy > 220) continue;
+            if (insideAnyPlanet(cx, cy, cz, planets, 12)) continue;
 
-            Material m = rng.nextInt(3) == 0 ? Material.SEA_LANTERN : Material.END_ROD;
-            setBlock(w, x, y, z, m);
+            setBlock(w, cx, cy, cz, Material.GLOWSTONE);
+            setBlock(w, cx + 1, cy, cz, Material.GLOWSTONE);
+            setBlock(w, cx - 1, cy, cz, Material.GLOWSTONE);
+            setBlock(w, cx, cy + 1, cz, Material.GLOWSTONE);
+            setBlock(w, cx, cy, cz + 1, Material.GLOWSTONE);
             placed++;
         }
-        log.info("Scattered " + placed + " decorative stars in space.");
+        log.info("Scattered " + placed + " decorative star clusters in space.");
     }
 
     private boolean insideAnyPlanet(int x, int y, int z, Iterable<Planet> planets, int margin) {
