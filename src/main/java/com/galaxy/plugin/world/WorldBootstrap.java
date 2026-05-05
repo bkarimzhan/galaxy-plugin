@@ -70,9 +70,11 @@ public final class WorldBootstrap {
         if (battle != null) {
             org.bukkit.boss.BossBar bar = battle.getBossBar();
             if (bar != null) {
-                bar.setVisible(false);
-                bar.setProgress(0.0);
-                log.info("Hidden DragonBattle boss bar (suppresses end-battle ambient).");
+                bar.setTitle("§6§lСолнечная система §e★");
+                bar.setColor(org.bukkit.boss.BarColor.YELLOW);
+                bar.setProgress(1.0);
+                bar.setVisible(true);
+                log.info("DragonBattle boss bar relabeled to 'Солнечная система'.");
             }
             try {
                 battle.setRespawnPhase(org.bukkit.boss.DragonBattle.RespawnPhase.NONE);
