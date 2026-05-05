@@ -52,12 +52,12 @@ public final class SpaceChunkGenerator extends ChunkGenerator {
         return new BiomeProvider() {
             @Override
             public @NotNull Biome getBiome(@NotNull WorldInfo info, int x, int y, int z) {
-                return Biome.THE_VOID;
+                return Biome.THE_END;
             }
 
             @Override
             public @NotNull List<Biome> getBiomes(@NotNull WorldInfo info) {
-                return List.of(Biome.THE_VOID);
+                return List.of(Biome.THE_END);
             }
         };
     }
