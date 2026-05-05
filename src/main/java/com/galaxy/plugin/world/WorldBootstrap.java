@@ -23,6 +23,7 @@ public final class WorldBootstrap {
     public World createSpace() {
         WorldCreator c = new WorldCreator(SPACE)
                 .generator(new SpaceChunkGenerator())
+                .environment(World.Environment.THE_END)
                 .type(WorldType.FLAT)
                 .generateStructures(false);
         World w = Bukkit.createWorld(c);
@@ -33,7 +34,10 @@ public final class WorldBootstrap {
         w.setSpawnLocation(new Location(w, 0, 100, 30));
         w.getWorldBorder().setCenter(0, 0);
         w.getWorldBorder().setSize(5000);
-        log.info("World '" + SPACE + "' ready (void).");
+        w.setStorm(false);
+        w.setThundering(false);
+        w.setWeatherDuration(Integer.MAX_VALUE);
+        log.info("World '" + SPACE + "' ready (THE_END void — no sky, no clouds).");
         return w;
     }
 

@@ -71,6 +71,8 @@ public final class ShipController implements Listener {
         pig.setSilent(true);
         pig.setInvulnerable(true);
         pig.setInvisible(true);
+        pig.setAI(false);
+        pig.setRemoveWhenFarAway(false);
         if (pig.getAttribute(Attribute.SCALE) != null) {
             pig.getAttribute(Attribute.SCALE).setBaseValue(0.5);
         }
