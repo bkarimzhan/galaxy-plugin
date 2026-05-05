@@ -12,6 +12,17 @@
 #     yaw                     — facing yaw, degrees.
 
 planets:
+  sun:
+    world: planet_sun
+    sphere:
+      center: [0, 100, 0]
+      radius: 24
+      shell: SHROOMLIGHT
+      core: GLOWSTONE
+      skipBuild: true   # buildStar already constructs the visual sun
+    spawn:
+      location: [0, 80, 0]
+      yaw: 0.0
   earth:
     world: planet_earth
     sphere:

@@ -66,6 +66,7 @@ public final class PlanetManager {
         Material shell = Material.matchMaterial(sph.getString("shell", "GREEN_CONCRETE"));
         Material core = Material.matchMaterial(sph.getString("core", "SEA_LANTERN"));
         if (shell == null || core == null) throw new IllegalArgumentException("invalid block material");
+        boolean skipBuild = sph.getBoolean("skipBuild", false);
 
         ConfigurationSection sp = p.getConfigurationSection("spawn");
         if (sp == null) throw new IllegalArgumentException("missing spawn block");
@@ -74,7 +75,7 @@ public final class PlanetManager {
         float yaw = (float) sp.getDouble("yaw", 0.0);
 
         Location centerLoc = new Location(spaceWorld, center.get(0), center.get(1), center.get(2));
-        return new Planet(id, world, centerLoc, radius, shell, core,
+        return new Planet(id, world, centerLoc, radius, shell, core, skipBuild,
                 spLoc.get(0), spLoc.get(1), spLoc.get(2), yaw);
     }
 

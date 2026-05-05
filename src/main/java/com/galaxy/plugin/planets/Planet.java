@@ -11,6 +11,7 @@ public record Planet(
         int sphereRadius,
         Material sphereShell,
         Material sphereCore,
+        boolean skipSphereBuild,
         double spawnX,
         double spawnY,
         double spawnZ,

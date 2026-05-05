@@ -13,6 +13,7 @@ public final class WorldBootstrap {
     public static final String SPACE = "space";
     public static final String PLANET_EARTH = "planet_earth";
     public static final String PLANET_MARS = "planet_mars";
+    public static final String PLANET_SUN = "planet_sun";
 
     private final Logger log;
 
@@ -80,6 +81,23 @@ public final class WorldBootstrap {
         w.getWorldBorder().setCenter(0, 0);
         w.getWorldBorder().setSize(1000);
         log.info("World '" + PLANET_MARS + "' ready (flat desert, border 1000).");
+        return w;
+    }
+
+    public World createPlanetSun() {
+        WorldCreator c = new WorldCreator(PLANET_SUN)
+                .generator(new LavaChunkGenerator())
+                .type(WorldType.FLAT)
+                .generateStructures(false);
+        World w = Bukkit.createWorld(c);
+        if (w == null) {
+            log.severe("Failed to create world '" + PLANET_SUN + "'");
+            return null;
+        }
+        w.setSpawnLocation(new Location(w, 0, 80, 0));
+        w.getWorldBorder().setCenter(0, 0);
+        w.getWorldBorder().setSize(500);
+        log.info("World '" + PLANET_SUN + "' ready (lava ocean, border 500).");
         return w;
     }
 }

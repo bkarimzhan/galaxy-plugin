@@ -74,6 +74,10 @@ public final class SphereBuilder {
     }
 
     private void buildSphere(World w, Planet p) {
+        if (p.skipSphereBuild()) {
+            log.info("Mini-sphere '" + p.id() + "' skipBuild=true — using star/sun structure already in place.");
+            return;
+        }
         Location c = p.sphereCenter();
         int r = p.sphereRadius();
         int r2 = r * r;

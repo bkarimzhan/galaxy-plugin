@@ -11,6 +11,7 @@ import com.galaxy.plugin.planets.PlanetManager;
 import com.galaxy.plugin.planets.SphereBuilder;
 import com.galaxy.plugin.ship.ShipController;
 import com.galaxy.plugin.teleport.TeleportService;
+import com.galaxy.plugin.world.LavaChunkGenerator;
 import com.galaxy.plugin.world.SpawnPlatform;
 import com.galaxy.plugin.world.WorldBootstrap;
 import org.bukkit.World;
@@ -29,6 +30,7 @@ public final class GalaxyPlugin extends JavaPlugin {
     private World spaceWorld;
     private World planetEarth;
     private World planetMars;
+    private World planetSun;
     private PlanetManager planetManager;
     private TeleportService teleportService;
     private ProximityTask proximityTask;
@@ -42,8 +44,9 @@ public final class GalaxyPlugin extends JavaPlugin {
         spaceWorld = wb.createSpace();
         planetEarth = wb.createPlanetEarth();
         planetMars = wb.createPlanetMars();
+        planetSun = wb.createPlanetSun();
 
-        if (spaceWorld == null || planetEarth == null || planetMars == null) {
+        if (spaceWorld == null || planetEarth == null || planetMars == null || planetSun == null) {
             getLogger().severe("Galaxy: world bootstrap failed — disabling plugin.");
             getServer().getPluginManager().disablePlugin(this);
             return;
@@ -98,6 +101,7 @@ public final class GalaxyPlugin extends JavaPlugin {
     public @Nullable ChunkGenerator getDefaultWorldGenerator(@NotNull String worldName, @Nullable String id) {
         if (WorldBootstrap.SPACE.equals(worldName)) return new SpaceChunkGenerator();
         if (WorldBootstrap.PLANET_MARS.equals(worldName)) return new DesertChunkGenerator();
+        if (WorldBootstrap.PLANET_SUN.equals(worldName)) return new LavaChunkGenerator();
         return null;
     }
 
