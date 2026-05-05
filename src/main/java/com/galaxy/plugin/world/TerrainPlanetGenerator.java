@@ -19,6 +19,7 @@ public final class TerrainPlanetGenerator extends ChunkGenerator {
             int baseY,
             double amp1, double freq1,
             double amp2, double freq2,
+            double amp3, double freq3,
             int accentMinHeight,
             Biome biome) {}
 
@@ -37,8 +38,9 @@ public final class TerrainPlanetGenerator extends ChunkGenerator {
             for (int dz = 0; dz < 16; dz++) {
                 int wx = chunkX * 16 + dx;
                 int wz = chunkZ * 16 + dz;
-                double n = (valueNoise(wx * p.freq1(), wz * p.freq1(), seed) - 0.5) * 2 * p.amp1()
-                         + (valueNoise(wx * p.freq2(), wz * p.freq2(), seed ^ 0xC051B33EL) - 0.5) * 2 * p.amp2();
+                double n = (valueNoise(wx * p.freq1(), wz * p.freq1(), seed)             - 0.5) * 2 * p.amp1()
+                         + (valueNoise(wx * p.freq2(), wz * p.freq2(), seed ^ 0xCAFEL)   - 0.5) * 2 * p.amp2()
+                         + (valueNoise(wx * p.freq3(), wz * p.freq3(), seed ^ 0xBABEL)   - 0.5) * 2 * p.amp3();
                 int height = (int) Math.round(p.baseY() + n);
                 data.setBlock(dx, BEDROCK_Y, dz, Material.BEDROCK);
                 for (int y = BEDROCK_Y + 1; y < height; y++) {
@@ -91,8 +93,7 @@ public final class TerrainPlanetGenerator extends ChunkGenerator {
     }
 
     private static double hashed(int x, int z, long seed) {
-        long h = (x * 374761393L + z * 668265263L + seed * 0x9E3779B1L) ^ 0x4D5FCE3CL;
-        h = (h ^ (h >>> 13)) * 1274126177L;
-        return ((h ^ (h >>> 16)) & 0xFFFF) / 65535.0;
+        long h = ((long) x * 341873128712L) ^ ((long) z * 132897987541L) ^ seed;
+        return new Random(h).nextDouble();
     }
 }
