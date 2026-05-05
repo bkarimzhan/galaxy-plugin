@@ -47,26 +47,30 @@ public final class SphereBuilder {
 
     private void buildStar(World w) {
         Location star = new Location(w, 0, 100, 0);
-        for (int dx = -3; dx <= 3; dx++) {
-            for (int dz = -3; dz <= 3; dz++) {
-                if (Math.abs(dx) + Math.abs(dz) <= 3) {
-                    setBlock(w, star.getBlockX() + dx, star.getBlockY() - 1, star.getBlockZ() + dz, Material.IRON_BLOCK);
-                }
-            }
-        }
-        setBlock(w, star.getBlockX(), star.getBlockY(), star.getBlockZ(), Material.BEACON);
-
-        for (int dx = -1; dx <= 1; dx++) {
-            for (int dy = 1; dy <= 3; dy++) {
-                for (int dz = -1; dz <= 1; dz++) {
-                    if (dx == 0 && dz == 0) continue;
-                    if (Math.abs(dx) + Math.abs(dz) + Math.abs(dy - 2) <= 2) {
-                        setBlock(w, star.getBlockX() + dx, star.getBlockY() + dy, star.getBlockZ() + dz, Material.GLOWSTONE);
+        int r = 12;
+        int r2 = r * r;
+        int rOuter2 = (r - 2) * (r - 2);
+        int rCore2 = 4 * 4;
+        int placed = 0;
+        for (int dx = -r; dx <= r; dx++) {
+            for (int dy = -r; dy <= r; dy++) {
+                for (int dz = -r; dz <= r; dz++) {
+                    int d2 = dx * dx + dy * dy + dz * dz;
+                    if (d2 > r2) continue;
+                    Material m;
+                    if (d2 <= rCore2) {
+                        m = Material.SHROOMLIGHT;
+                    } else if (d2 <= rOuter2) {
+                        m = Material.GLOWSTONE;
+                    } else {
+                        m = Material.SHROOMLIGHT;
                     }
+                    setBlock(w, star.getBlockX() + dx, star.getBlockY() + dy, star.getBlockZ() + dz, m);
+                    placed++;
                 }
             }
         }
-        log.info("Star + beacon at " + star.toVector());
+        log.info("Sun built at " + star.toVector() + " r=" + r + " (" + placed + " blocks).");
     }
 
     private void buildSphere(World w, Planet p) {
@@ -99,10 +103,9 @@ public final class SphereBuilder {
                 }
             }
         }
-        for (int x = -10; x <= 10; x++) {
-            for (int z = -10; z <= 10; z++) {
-                for (int y = 40; y <= 90; y++) {
-                    if (y >= 99 && y <= 103 && Math.abs(x) <= 3 && Math.abs(z) <= 3) continue;
+        for (int x = -15; x <= 15; x++) {
+            for (int z = -15; z <= 15; z++) {
+                for (int y = 40; y <= 85; y++) {
                     if (clearIfNotAir(w, x, y, z)) wiped++;
                 }
             }
@@ -122,7 +125,7 @@ public final class SphereBuilder {
         int count = 80;
         int placed = 0;
         for (int i = 0; i < count * 4 && placed < count; i++) {
-            double r = 80 + rng.nextDouble() * 120;
+            double r = 140 + rng.nextDouble() * 120;
             double theta = rng.nextDouble() * Math.PI * 2;
             double phi = (rng.nextDouble() - 0.5) * Math.PI;
             int x = (int) (r * Math.cos(phi) * Math.cos(theta));
