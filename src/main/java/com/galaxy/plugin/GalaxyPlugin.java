@@ -1,7 +1,9 @@
 package com.galaxy.plugin;
 
+import com.galaxy.plugin.listeners.ProximityTask;
 import com.galaxy.plugin.planets.PlanetManager;
 import com.galaxy.plugin.planets.SphereBuilder;
+import com.galaxy.plugin.teleport.TeleportService;
 import com.galaxy.plugin.world.WorldBootstrap;
 import org.bukkit.World;
 import org.bukkit.generator.ChunkGenerator;
@@ -20,6 +22,8 @@ public final class GalaxyPlugin extends JavaPlugin {
     private World planetEarth;
     private World planetMars;
     private PlanetManager planetManager;
+    private TeleportService teleportService;
+    private ProximityTask proximityTask;
 
     @Override
     public void onEnable() {
@@ -49,12 +53,16 @@ public final class GalaxyPlugin extends JavaPlugin {
         SphereBuilder sphereBuilder = new SphereBuilder(getLogger(), getDataFolder());
         sphereBuilder.buildAllOnce(spaceWorld, planetManager.all().values());
 
+        teleportService = new TeleportService(getLogger(), spaceWorld, planetManager);
+        proximityTask = ProximityTask.schedule(this, planetManager, teleportService, spaceWorld);
+
         getLogger().info("Galaxy plugin enabled. Worlds: " + spaceWorld.getName()
                 + ", " + planetEarth.getName() + ", " + planetMars.getName());
     }
 
     @Override
     public void onDisable() {
+        if (proximityTask != null) proximityTask.cancel();
         getLogger().info("Galaxy plugin disabled.");
     }
 
@@ -69,4 +77,5 @@ public final class GalaxyPlugin extends JavaPlugin {
     public World getPlanetEarth() { return planetEarth; }
     public World getPlanetMars() { return planetMars; }
     public PlanetManager getPlanetManager() { return planetManager; }
+    public TeleportService getTeleportService() { return teleportService; }
 }
