@@ -23,6 +23,7 @@ tasks {
     compileJava {
         options.encoding = "UTF-8"
         options.release.set(21)
+        options.compilerArgs.addAll(listOf("-Xlint:deprecation", "-Xlint:unchecked"))
     }
 
     processResources {
