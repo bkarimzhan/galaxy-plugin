@@ -1,0 +1,34 @@
+# Galaxy plugin — planet definitions.
+#
+# Each entry under `planets:` defines:
+#   world           — name of the bukkit World this planet uses.
+#   sphere:
+#     center: [x, y, z]      — coordinates of the mini-sphere's center in `space` world.
+#     radius                  — radius of the mini-sphere shell, in blocks.
+#     shell                   — block material used for the shell.
+#     core                    — block material used for the central core (single block).
+#   spawn:
+#     location: [x, y, z]    — where the player spawns when teleporting INTO this planet.
+#     yaw                     — facing yaw, degrees.
+
+planets:
+  earth:
+    world: planet_earth
+    sphere:
+      center: [-90, 100, 0]
+      radius: 18
+      shell: GREEN_CONCRETE
+      core: SEA_LANTERN
+    spawn:
+      location: [0, 80, 0]
+      yaw: 0.0
+  mars:
+    world: planet_mars
+    sphere:
+      center: [90, 100, 0]
+      radius: 18
+      shell: RED_CONCRETE
+      core: SEA_LANTERN
+    spawn:
+      location: [0, 66, 0]
+      yaw: 0.0
