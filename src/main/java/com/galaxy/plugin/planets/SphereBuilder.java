@@ -126,27 +126,30 @@ public final class SphereBuilder {
 
     private void scatterStars(World w, Iterable<Planet> planets) {
         Random rng = new Random(0xC051B33EL);
-        int count = 60;
+        Material[] palette = {
+                Material.WHITE_CONCRETE,
+                Material.WHITE_CONCRETE,
+                Material.WHITE_CONCRETE,
+                Material.WHITE_TERRACOTTA,
+                Material.LIGHT_GRAY_CONCRETE,
+        };
+        int count = 280;
         int placed = 0;
         for (int i = 0; i < count * 4 && placed < count; i++) {
-            double r = 90 + rng.nextDouble() * 80;
+            double r = 100 + rng.nextDouble() * 180;
             double theta = rng.nextDouble() * Math.PI * 2;
             double phi = (rng.nextDouble() - 0.5) * Math.PI;
-            int cx = (int) (r * Math.cos(phi) * Math.cos(theta));
-            int cy = 100 + (int) (r * Math.sin(phi));
-            int cz = (int) (r * Math.cos(phi) * Math.sin(theta));
+            int x = (int) (r * Math.cos(phi) * Math.cos(theta));
+            int y = 100 + (int) (r * Math.sin(phi));
+            int z = (int) (r * Math.cos(phi) * Math.sin(theta));
 
-            if (cy < -20 || cy > 220) continue;
-            if (insideAnyPlanet(cx, cy, cz, planets, 12)) continue;
+            if (y < 30 || y > 200) continue;
+            if (insideAnyPlanet(x, y, z, planets, 15)) continue;
 
-            setBlock(w, cx, cy, cz, Material.GLOWSTONE);
-            setBlock(w, cx + 1, cy, cz, Material.GLOWSTONE);
-            setBlock(w, cx - 1, cy, cz, Material.GLOWSTONE);
-            setBlock(w, cx, cy + 1, cz, Material.GLOWSTONE);
-            setBlock(w, cx, cy, cz + 1, Material.GLOWSTONE);
+            setBlock(w, x, y, z, palette[rng.nextInt(palette.length)]);
             placed++;
         }
-        log.info("Scattered " + placed + " decorative star clusters in space.");
+        log.info("Scattered " + placed + " decorative stars in space.");
     }
 
     private boolean insideAnyPlanet(int x, int y, int z, Iterable<Planet> planets, int margin) {
