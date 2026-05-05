@@ -39,17 +39,17 @@ public final class TeleportService {
                     c.getX(), c.getY(), c.getZ() + p.sphereRadius() + 12,
                     180f, 0f);
         }
-        boolean ridingShip = ships != null && ships.isShip(player.getVehicle());
-        if (ridingShip) {
-            ships.teleportShipWithRider(player, target);
-        } else {
-            if (player.getVehicle() != null) player.leaveVehicle();
-            player.teleport(target);
-            player.setVelocity(new Vector(0, 0, 0));
-            if (ships != null) ships.spawnAndSeat(player);
+        boolean wasOnShip = ships != null && ships.isShip(player.getVehicle());
+        if (wasOnShip) {
+            ships.dismountAndDespawn(player);
+        } else if (player.getVehicle() != null) {
+            player.leaveVehicle();
         }
+        player.teleport(target);
+        player.setVelocity(new Vector(0, 0, 0));
+        if (ships != null) ships.spawnAndSeat(player);
         log.info("Teleport " + player.getName() + " → space @ " + target.toVector()
-                + (ridingShip ? " (with ship)" : " (auto-spawned ship)"));
+                + (wasOnShip ? " (re-spawned ship at arrival)" : " (auto-spawned ship)"));
     }
 
     public void toPlanet(Player player, Planet planet) {
