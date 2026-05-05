@@ -59,11 +59,11 @@ public final class SphereBuilder {
                     if (d2 > r2) continue;
                     Material m;
                     if (d2 <= rCore2) {
-                        m = Material.SHROOMLIGHT;
+                        m = Material.YELLOW_CONCRETE;
                     } else if (d2 <= rOuter2) {
-                        m = Material.GLOWSTONE;
+                        m = Material.ORANGE_CONCRETE;
                     } else {
-                        m = Material.SHROOMLIGHT;
+                        m = Material.YELLOW_CONCRETE;
                     }
                     setBlock(w, star.getBlockX() + dx, star.getBlockY() + dy, star.getBlockZ() + dz, m);
                     placed++;

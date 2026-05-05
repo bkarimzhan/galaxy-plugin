@@ -1,5 +1,6 @@
 # Galaxy plugin — planet definitions.
-# Order matches the real solar system. All on +x axis, sun at (0,100,0).
+# Sun at origin. Planets distributed around it at real-life-proportional
+# orbital radii but at varied angles (snapshot of an arbitrary moment).
 
 planets:
   sun:
@@ -7,16 +8,16 @@ planets:
     sphere:
       center: [0, 100, 0]
       radius: 18
-      shell: SHROOMLIGHT
-      core: GLOWSTONE
-      skipBuild: true   # buildStar already constructs the visual sun
+      shell: ORANGE_CONCRETE
+      core: YELLOW_CONCRETE
+      skipBuild: true
     spawn:
       location: [0, 80, 0]
       yaw: 0.0
   mercury:
     world: planet_mercury
     sphere:
-      center: [30, 100, 0]
+      center: [25, 100, 17]
       radius: 4
       shell: STONE
       core: REDSTONE_BLOCK
@@ -26,7 +27,7 @@ planets:
   venus:
     world: planet_venus
     sphere:
-      center: [55, 100, 0]
+      center: [-19, 100, 52]
       radius: 7
       shell: ORANGE_TERRACOTTA
       core: MAGMA_BLOCK
@@ -36,7 +37,7 @@ planets:
   earth:
     world: planet_earth
     sphere:
-      center: [85, 100, 0]
+      center: [-80, 100, -29]
       radius: 9
       shell: GREEN_CONCRETE
       core: SEA_LANTERN
@@ -46,7 +47,7 @@ planets:
   mars:
     world: planet_mars
     sphere:
-      center: [115, 100, 0]
+      center: [20, 100, -113]
       radius: 5
       shell: RED_CONCRETE
       core: REDSTONE_BLOCK
@@ -56,7 +57,7 @@ planets:
   jupiter:
     world: planet_jupiter
     sphere:
-      center: [165, 100, 0]
+      center: [106, 100, 126]
       radius: 14
       shell: WHITE_TERRACOTTA
       core: ORANGE_TERRACOTTA
@@ -66,7 +67,7 @@ planets:
   saturn:
     world: planet_saturn
     sphere:
-      center: [220, 100, 0]
+      center: [-141, 100, 169]
       radius: 12
       shell: SMOOTH_SANDSTONE
       core: SANDSTONE
@@ -76,7 +77,7 @@ planets:
   uranus:
     world: planet_uranus
     sphere:
-      center: [265, 100, 0]
+      center: [-203, 100, -170]
       radius: 8
       shell: PACKED_ICE
       core: BLUE_ICE
@@ -86,7 +87,7 @@ planets:
   neptune:
     world: planet_neptune
     sphere:
-      center: [310, 100, 0]
+      center: [199, 100, -237]
       radius: 8
       shell: BLUE_ICE
       core: PACKED_ICE
