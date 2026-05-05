@@ -71,7 +71,7 @@ public final class EndStructureCleanup implements Listener {
                 for (int y = 50; y <= 135; y++) {
                     Block b = w.getBlockAt(x, y, z);
                     Material m = b.getType();
-                    if (m == Material.BEDROCK || m == Material.END_PORTAL || m == Material.TORCH || m == Material.END_STONE || m == Material.DRAGON_EGG) {
+                    if (m == Material.BEDROCK || m == Material.END_PORTAL || m == Material.TORCH || m == Material.WALL_TORCH || m == Material.SOUL_TORCH || m == Material.SOUL_WALL_TORCH || m == Material.END_STONE || m == Material.DRAGON_EGG) {
                         int dx = x - SUN_CX;
                         int dy = y - SUN_CY;
                         int dz = z - SUN_CZ;
