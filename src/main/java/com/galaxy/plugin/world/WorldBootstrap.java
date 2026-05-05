@@ -114,7 +114,8 @@ public final class WorldBootstrap {
         w.setSpawnLocation(new Location(w, 0, 65, 0));
         w.getWorldBorder().setCenter(0, 0);
         w.getWorldBorder().setSize(1000);
-        log.info("World '" + PLANET_MARS + "' ready (flat desert, border 1000).");
+        w.setGameRule(org.bukkit.GameRule.DO_MOB_SPAWNING, false);
+        log.info("World '" + PLANET_MARS + "' ready (flat desert, border 1000, lifeless).");
         return w;
     }
 
@@ -148,7 +149,8 @@ public final class WorldBootstrap {
         w.setSpawnLocation(new Location(w, 0, spawnY, 0));
         w.getWorldBorder().setCenter(0, 0);
         w.getWorldBorder().setSize(borderSize);
-        log.info("World '" + name + "' ready (" + label + ", border " + borderSize + ").");
+        w.setGameRule(org.bukkit.GameRule.DO_MOB_SPAWNING, false);
+        log.info("World '" + name + "' ready (" + label + ", border " + borderSize + ", lifeless).");
         return w;
     }
 }
