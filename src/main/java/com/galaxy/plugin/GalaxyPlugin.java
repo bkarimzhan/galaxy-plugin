@@ -48,7 +48,7 @@ public final class GalaxyPlugin extends JavaPlugin {
         getLogger().info("Galaxy plugin starting…");
 
         WorldBootstrap wb = new WorldBootstrap(getLogger());
-        spaceWorld = wb.createSpace();
+        spaceWorld = wb.createSpace(this);
         planetEarth = wb.createPlanetEarth();
         planetMars = wb.createPlanetMars();
         planetSun = wb.createPlanetSun();

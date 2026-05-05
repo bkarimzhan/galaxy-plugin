@@ -1,6 +1,9 @@
 package com.galaxy.plugin.world;
 
+import io.papermc.paper.registry.RegistryAccess;
+import io.papermc.paper.registry.RegistryKey;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.generator.BiomeProvider;
 import org.bukkit.generator.ChunkGenerator;
@@ -47,17 +50,32 @@ public final class SpaceChunkGenerator extends ChunkGenerator {
     @Override
     public boolean shouldGenerateStructures() { return false; }
 
+    private Biome cachedBiome;
+
+    private Biome resolveBiome() {
+        if (cachedBiome != null) return cachedBiome;
+        Biome b = null;
+        try {
+            b = RegistryAccess.registryAccess()
+                    .getRegistry(RegistryKey.BIOME)
+                    .get(NamespacedKey.fromString("galaxy:space"));
+        } catch (Throwable ignored) {
+        }
+        cachedBiome = b != null ? b : Biome.THE_END;
+        return cachedBiome;
+    }
+
     @Override
     public BiomeProvider getDefaultBiomeProvider(@NotNull WorldInfo info) {
         return new BiomeProvider() {
             @Override
             public @NotNull Biome getBiome(@NotNull WorldInfo info, int x, int y, int z) {
-                return Biome.THE_END;
+                return resolveBiome();
             }
 
             @Override
             public @NotNull List<Biome> getBiomes(@NotNull WorldInfo info) {
-                return List.of(Biome.THE_END);
+                return List.of(resolveBiome());
             }
         };
     }
