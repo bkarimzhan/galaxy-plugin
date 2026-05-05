@@ -7,6 +7,7 @@ import com.galaxy.plugin.commands.ShipCommand;
 import com.galaxy.plugin.commands.SpaceCommand;
 import com.galaxy.plugin.commands.UnshipCommand;
 import com.galaxy.plugin.listeners.EndStructureCleanup;
+import com.galaxy.plugin.listeners.GravityListener;
 import com.galaxy.plugin.listeners.MoonOrbitTask;
 import com.galaxy.plugin.listeners.NightVisionListener;
 import com.galaxy.plugin.listeners.ProximityTask;
@@ -100,6 +101,7 @@ public final class GalaxyPlugin extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(
                 new NightVisionListener(this, spaceWorld.getName()), this);
+        getServer().getPluginManager().registerEvents(new GravityListener(this), this);
 
         teleportService = new TeleportService(getLogger(), spaceWorld, planetManager);
 
