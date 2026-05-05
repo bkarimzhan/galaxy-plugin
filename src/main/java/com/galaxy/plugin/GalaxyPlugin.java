@@ -91,8 +91,9 @@ public final class GalaxyPlugin extends JavaPlugin {
                 this);
         getServer().getPluginManager().registerEvents(
                 new SpaceMobGuard(spaceWorld.getName()), this);
-        getServer().getPluginManager().registerEvents(
-                new EndStructureCleanup(this, spaceWorld.getName()), this);
+        EndStructureCleanup endCleanup = new EndStructureCleanup(this, spaceWorld.getName());
+        getServer().getPluginManager().registerEvents(endCleanup, this);
+        endCleanup.wipeNow(spaceWorld);
 
         teleportService = new TeleportService(getLogger(), spaceWorld, planetManager);
 

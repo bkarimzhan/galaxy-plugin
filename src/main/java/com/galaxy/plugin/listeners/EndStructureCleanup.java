@@ -20,6 +20,9 @@ public final class EndStructureCleanup implements Listener {
         this.spaceWorldName = spaceWorldName;
     }
 
+    private static final int SUN_CX = 0, SUN_CY = 100, SUN_CZ = 0;
+    private static final int SUN_R2 = 28 * 28;
+
     @EventHandler
     public void onChunkLoad(ChunkLoadEvent ev) {
         if (!ev.getWorld().getName().equals(spaceWorldName)) return;
@@ -36,6 +39,11 @@ public final class EndStructureCleanup implements Listener {
         }
     }
 
+    public void wipeNow(World w) {
+        wipeObsidianPlatform(w);
+        wipeExitPortal(w);
+    }
+
     private void wipeObsidianPlatform(World w) {
         for (int x = 95; x <= 105; x++) {
             for (int y = 47; y <= 53; y++) {
@@ -50,13 +58,18 @@ public final class EndStructureCleanup implements Listener {
     }
 
     private void wipeExitPortal(World w) {
-        for (int x = -4; x <= 4; x++) {
-            for (int z = -4; z <= 4; z++) {
-                for (int y = 55; y <= 78; y++) {
+        for (int x = -5; x <= 5; x++) {
+            for (int z = -5; z <= 5; z++) {
+                for (int y = 55; y <= 95; y++) {
                     Block b = w.getBlockAt(x, y, z);
                     Material m = b.getType();
-                    if (m == Material.BEDROCK || m == Material.END_PORTAL || m == Material.TORCH || m == Material.END_STONE) {
-                        b.setType(Material.AIR, false);
+                    if (m == Material.BEDROCK || m == Material.END_PORTAL || m == Material.TORCH || m == Material.END_STONE || m == Material.DRAGON_EGG) {
+                        int dx = x - SUN_CX;
+                        int dy = y - SUN_CY;
+                        int dz = z - SUN_CZ;
+                        int d2 = dx * dx + dy * dy + dz * dz;
+                        Material replacement = (d2 <= SUN_R2) ? Material.SHROOMLIGHT : Material.AIR;
+                        b.setType(replacement, false);
                     }
                 }
             }
