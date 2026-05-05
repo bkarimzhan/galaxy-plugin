@@ -42,6 +42,13 @@ public final class EndStructureCleanup implements Listener {
     public void wipeNow(World w) {
         wipeObsidianPlatform(w);
         wipeExitPortal(w);
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            wipeObsidianPlatform(w);
+            wipeExitPortal(w);
+        }, 60L);
+        Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+            wipeExitPortal(w);
+        }, 200L, 200L);
     }
 
     private void wipeObsidianPlatform(World w) {
@@ -58,9 +65,10 @@ public final class EndStructureCleanup implements Listener {
     }
 
     private void wipeExitPortal(World w) {
-        for (int x = -5; x <= 5; x++) {
-            for (int z = -5; z <= 5; z++) {
-                for (int y = 55; y <= 95; y++) {
+        int wiped = 0;
+        for (int x = -8; x <= 8; x++) {
+            for (int z = -8; z <= 8; z++) {
+                for (int y = 50; y <= 135; y++) {
                     Block b = w.getBlockAt(x, y, z);
                     Material m = b.getType();
                     if (m == Material.BEDROCK || m == Material.END_PORTAL || m == Material.TORCH || m == Material.END_STONE || m == Material.DRAGON_EGG) {
@@ -70,9 +78,11 @@ public final class EndStructureCleanup implements Listener {
                         int d2 = dx * dx + dy * dy + dz * dz;
                         Material replacement = (d2 <= SUN_R2) ? Material.SHROOMLIGHT : Material.AIR;
                         b.setType(replacement, false);
+                        wiped++;
                     }
                 }
             }
         }
+        if (wiped > 0) plugin.getLogger().info("EndCleanup: wiped " + wiped + " end-junk block(s) from space centre.");
     }
 }
