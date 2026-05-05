@@ -2,6 +2,7 @@
 build/
 .idea/
 .vscode/
+.claude/
 *.iml
 out/
 *.class
