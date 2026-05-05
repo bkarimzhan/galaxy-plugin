@@ -70,12 +70,13 @@ public final class WorldBootstrap {
         if (battle != null) {
             org.bukkit.boss.BossBar bar = battle.getBossBar();
             if (bar != null) {
-                bar.setTitle("§6§lSolar System §e★");
-                bar.setColor(org.bukkit.boss.BarColor.YELLOW);
-                bar.setProgress(1.0);
-                bar.setVisible(true);
-                log.info("Re-titled DragonBattle boss bar to 'Solar System'.");
+                bar.setVisible(false);
+                bar.setProgress(0.0);
+                log.info("Hidden DragonBattle boss bar (suppresses end-battle ambient).");
             }
+            try {
+                battle.setRespawnPhase(org.bukkit.boss.DragonBattle.RespawnPhase.NONE);
+            } catch (Throwable ignored) {}
         }
 
         log.info("World '" + SPACE + "' ready (THE_END void — no sky, no clouds, no dragon).");
