@@ -47,6 +47,18 @@ public final class WorldBootstrap {
         }
         if (removed > 0) log.info("Removed " + removed + " auto-spawned ender_dragon(s) from '" + SPACE + "'.");
 
+        org.bukkit.boss.DragonBattle battle = w.getEnderDragonBattle();
+        if (battle != null) {
+            org.bukkit.boss.BossBar bar = battle.getBossBar();
+            if (bar != null) {
+                bar.setTitle("§6§lSolar System §e★");
+                bar.setColor(org.bukkit.boss.BarColor.YELLOW);
+                bar.setProgress(1.0);
+                bar.setVisible(true);
+                log.info("Re-titled DragonBattle boss bar to 'Solar System'.");
+            }
+        }
+
         log.info("World '" + SPACE + "' ready (THE_END void — no sky, no clouds, no dragon).");
         return w;
     }
