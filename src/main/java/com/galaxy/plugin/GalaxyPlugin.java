@@ -69,7 +69,10 @@ public final class GalaxyPlugin extends JavaPlugin {
         spawnPlatform.buildOnce(planetEarth);
         planetEarth.setSpawnLocation(spawnPlatform.locationIn(planetEarth));
         getServer().getPluginManager().registerEvents(
-                new SpawnListener(() -> spawnPlatform.locationIn(planetEarth)), this);
+                new SpawnListener(
+                        () -> spawnPlatform.locationIn(planetEarth),
+                        java.util.Set.of(spaceWorld.getName(), planetSun.getName())),
+                this);
         getServer().getPluginManager().registerEvents(
                 new SpaceMobGuard(spaceWorld.getName()), this);
 
