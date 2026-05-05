@@ -31,7 +31,7 @@ public final class WorldBootstrap {
     }
 
     public World createSpace(org.bukkit.plugin.Plugin plugin) {
-        DatapackInstaller.installFor(plugin, SPACE);
+        DatapackInstaller.installFor(plugin, PLANET_EARTH);
         WorldCreator c = new WorldCreator(SPACE)
                 .generator(new SpaceChunkGenerator())
                 .environment(World.Environment.THE_END)

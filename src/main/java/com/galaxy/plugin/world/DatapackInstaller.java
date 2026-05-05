@@ -19,10 +19,10 @@ public final class DatapackInstaller {
             "galaxy-datapack/data/galaxy/worldgen/biome/space.json",
     };
 
-    public static void installFor(Plugin plugin, String worldName) {
+    public static void installFor(Plugin plugin, String levelNameWorld) {
         Logger log = plugin.getLogger();
         File container = Bukkit.getWorldContainer();
-        File dpDir = new File(container, worldName + "/datapacks/galaxy");
+        File dpDir = new File(container, levelNameWorld + "/datapacks/galaxy");
         try {
             for (String resourcePath : FILES) {
                 String relative = resourcePath.substring("galaxy-datapack/".length());
