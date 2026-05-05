@@ -66,7 +66,6 @@ public final class ShipController implements Listener {
         front.setY(player.getLocation().getY() + 0.2);
 
         Pig pig = (Pig) player.getWorld().spawnEntity(front, org.bukkit.entity.EntityType.PIG);
-        pig.setSaddle(true);
         pig.setGravity(false);
         pig.setSilent(true);
         pig.setInvulnerable(true);
@@ -133,6 +132,10 @@ public final class ShipController implements Listener {
         Pig pig = (Pig) ev.getDismounted();
         if (!allowedDismount.remove(pig.getUniqueId())) {
             ev.setCancelled(true);
+            Vector cur = riderInput.get(p.getUniqueId());
+            double f = cur == null ? 0 : cur.getX();
+            double s = cur == null ? 0 : cur.getZ();
+            riderInput.put(p.getUniqueId(), new Vector(f, -1, s));
             return;
         }
         riderInput.remove(p.getUniqueId());

@@ -14,6 +14,10 @@ commands:
     description: Spawn a ship in front of you and ride it.
     permission: galaxy.command.ship
     usage: /ship
+  unship:
+    description: Dismount and despawn your current ship.
+    permission: galaxy.command.unship
+    usage: /unship
   leaveplanet:
     description: Fallback teleport to space when stuck on a planet.
     permission: galaxy.command.leaveplanet
@@ -22,6 +26,8 @@ permissions:
   galaxy.command.space:
     default: op
   galaxy.command.ship:
+    default: true
+  galaxy.command.unship:
     default: true
   galaxy.command.leaveplanet:
     default: true

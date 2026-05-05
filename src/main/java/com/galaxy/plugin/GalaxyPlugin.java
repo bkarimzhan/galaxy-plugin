@@ -3,6 +3,7 @@ package com.galaxy.plugin;
 import com.galaxy.plugin.commands.LeavePlanetCommand;
 import com.galaxy.plugin.commands.ShipCommand;
 import com.galaxy.plugin.commands.SpaceCommand;
+import com.galaxy.plugin.commands.UnshipCommand;
 import com.galaxy.plugin.listeners.ProximityTask;
 import com.galaxy.plugin.listeners.SpawnListener;
 import com.galaxy.plugin.planets.PlanetManager;
@@ -76,6 +77,7 @@ public final class GalaxyPlugin extends JavaPlugin {
 
         getCommand("space").setExecutor(new SpaceCommand(spaceWorld.getName()));
         getCommand("ship").setExecutor(new ShipCommand(shipController));
+        getCommand("unship").setExecutor(new UnshipCommand(shipController));
         getCommand("leaveplanet").setExecutor(new LeavePlanetCommand(teleportService, planetManager));
 
         getLogger().info("Galaxy plugin enabled. Worlds: " + spaceWorld.getName()
