@@ -36,7 +36,7 @@ public final class TeleportService {
         } else {
             Location c = p.sphereCenter();
             target = new Location(spaceWorld,
-                    c.getX(), c.getY(), c.getZ() + p.sphereRadius() + 5,
+                    c.getX(), c.getY(), c.getZ() + p.sphereRadius() + 12,
                     180f, 0f);
         }
         boolean ridingShip = ships != null && ships.isShip(player.getVehicle());

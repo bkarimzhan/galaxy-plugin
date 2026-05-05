@@ -4,10 +4,12 @@ import com.galaxy.plugin.commands.LeavePlanetCommand;
 import com.galaxy.plugin.commands.ShipCommand;
 import com.galaxy.plugin.commands.SpaceCommand;
 import com.galaxy.plugin.listeners.ProximityTask;
+import com.galaxy.plugin.listeners.SpawnListener;
 import com.galaxy.plugin.planets.PlanetManager;
 import com.galaxy.plugin.planets.SphereBuilder;
 import com.galaxy.plugin.ship.ShipController;
 import com.galaxy.plugin.teleport.TeleportService;
+import com.galaxy.plugin.world.SpawnPlatform;
 import com.galaxy.plugin.world.WorldBootstrap;
 import org.bukkit.World;
 import org.bukkit.generator.ChunkGenerator;
@@ -58,6 +60,12 @@ public final class GalaxyPlugin extends JavaPlugin {
         SphereBuilder sphereBuilder = new SphereBuilder(getLogger(), getDataFolder());
         sphereBuilder.buildAllOnce(spaceWorld, planetManager.all().values());
 
+        SpawnPlatform spawnPlatform = new SpawnPlatform(getLogger(), getDataFolder());
+        spawnPlatform.buildOnce(planetEarth);
+        planetEarth.setSpawnLocation(spawnPlatform.locationIn(planetEarth));
+        getServer().getPluginManager().registerEvents(
+                new SpawnListener(() -> spawnPlatform.locationIn(planetEarth)), this);
+
         teleportService = new TeleportService(getLogger(), spaceWorld, planetManager);
 
         shipController = new ShipController(this);
@@ -68,7 +76,7 @@ public final class GalaxyPlugin extends JavaPlugin {
 
         getCommand("space").setExecutor(new SpaceCommand(spaceWorld.getName()));
         getCommand("ship").setExecutor(new ShipCommand(shipController));
-        getCommand("leaveplanet").setExecutor(new LeavePlanetCommand(teleportService));
+        getCommand("leaveplanet").setExecutor(new LeavePlanetCommand(teleportService, planetManager));
 
         getLogger().info("Galaxy plugin enabled. Worlds: " + spaceWorld.getName()
                 + ", " + planetEarth.getName() + ", " + planetMars.getName());

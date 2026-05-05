@@ -111,7 +111,7 @@ public final class ShipController implements Listener {
         }
         var input = ev.getInput();
         double forward = (input.isForward() ? 1 : 0) - (input.isBackward() ? 1 : 0);
-        double strafe  = (input.isLeft() ? 1 : 0) - (input.isRight() ? 1 : 0);
+        double strafe  = (input.isRight() ? 1 : 0) - (input.isLeft() ? 1 : 0);
         double vert    = (input.isJump() ? 1 : 0) - (input.isSneak() ? 1 : 0);
         Vector prev = riderInput.put(p.getUniqueId(), new Vector(forward, vert, strafe));
         boolean changed = prev == null

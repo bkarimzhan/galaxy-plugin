@@ -13,7 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public final class ProximityTask extends BukkitRunnable {
 
     private static final int Y_LAUNCH_THRESHOLD = 300;
-    private static final int APPROACH_PADDING = 3;
+    private static final int APPROACH_PADDING = 6;
     private static final long PERIOD_TICKS = 5L;
 
     private final PlanetManager planets;
