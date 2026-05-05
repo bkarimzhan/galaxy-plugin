@@ -7,6 +7,7 @@ import com.galaxy.plugin.commands.UnshipCommand;
 import com.galaxy.plugin.listeners.ProximityTask;
 import com.galaxy.plugin.listeners.SpaceMobGuard;
 import com.galaxy.plugin.listeners.SpawnListener;
+import com.galaxy.plugin.listeners.StarParticleTask;
 import com.galaxy.plugin.planets.PlanetManager;
 import com.galaxy.plugin.planets.SphereBuilder;
 import com.galaxy.plugin.ship.ShipController;
@@ -38,6 +39,7 @@ public final class GalaxyPlugin extends JavaPlugin {
     private TeleportService teleportService;
     private ProximityTask proximityTask;
     private ShipController shipController;
+    private StarParticleTask starParticleTask;
 
     @Override
     public void onEnable() {
@@ -92,6 +94,7 @@ public final class GalaxyPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(shipController, this);
 
         proximityTask = ProximityTask.schedule(this, planetManager, teleportService, spaceWorld);
+        starParticleTask = StarParticleTask.schedule(this, spaceWorld.getName());
 
         getCommand("space").setExecutor(new SpaceCommand(spaceWorld.getName()));
         getCommand("ship").setExecutor(new ShipCommand(shipController));
@@ -105,6 +108,7 @@ public final class GalaxyPlugin extends JavaPlugin {
     @Override
     public void onDisable() {
         if (proximityTask != null) proximityTask.cancel();
+        if (starParticleTask != null) starParticleTask.cancel();
         if (shipController != null) shipController.shutdown();
         getLogger().info("Galaxy plugin disabled.");
     }

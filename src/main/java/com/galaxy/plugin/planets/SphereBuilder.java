@@ -33,7 +33,6 @@ public final class SphereBuilder {
         for (Planet p : planets) {
             buildSphere(space, p);
         }
-        scatterStars(space, planets);
 
         try {
             flagFile.getParentFile().mkdirs();
