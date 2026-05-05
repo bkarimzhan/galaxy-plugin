@@ -1,5 +1,6 @@
 package com.galaxy.plugin.ship;
 
+import io.papermc.paper.entity.TeleportFlag;
 import org.bukkit.Bukkit;
 import org.bukkit.event.player.PlayerInputEvent;
 import org.bukkit.Color;
@@ -27,7 +28,9 @@ import org.joml.AxisAngle4f;
 import org.joml.Vector3f;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -43,6 +46,8 @@ public final class ShipController implements Listener {
     private final NamespacedKey shipKey;
     private final NamespacedKey displayKey;
     private final Map<UUID, Vector> riderInput = new HashMap<>();
+    private final Map<UUID, UUID> shipToDisplay = new HashMap<>();
+    private final Set<UUID> allowedDismount = new HashSet<>();
     private final BukkitRunnable tick;
 
     public ShipController(Plugin plugin) {
@@ -66,8 +71,6 @@ public final class ShipController implements Listener {
         pig.setSilent(true);
         pig.setInvulnerable(true);
         pig.setInvisible(true);
-        pig.setAI(false);
-        pig.setCollidable(false);
         if (pig.getAttribute(Attribute.SCALE) != null) {
             pig.getAttribute(Attribute.SCALE).setBaseValue(0.5);
         }
@@ -82,10 +85,13 @@ public final class ShipController implements Listener {
                 new AxisAngle4f(0, 0, 1, 0)));
         disp.setBrightness(new Display.Brightness(15, 15));
         disp.getPersistentDataContainer().set(displayKey, PersistentDataType.STRING, pig.getUniqueId().toString());
-        pig.addPassenger(disp);
-        pig.addPassenger(player);
+        disp.setPersistent(false);
 
-        log.info("Ship spawned by " + player.getName() + " at " + front.toVector());
+        pig.addPassenger(player);
+        shipToDisplay.put(pig.getUniqueId(), disp.getUniqueId());
+
+        log.info("Ship spawned by " + player.getName() + " at " + front.toVector()
+                + " (passengers=" + pig.getPassengers().size() + ")");
         return pig;
     }
 
@@ -105,15 +111,24 @@ public final class ShipController implements Listener {
         double forward = (input.isForward() ? 1 : 0) - (input.isBackward() ? 1 : 0);
         double strafe  = (input.isLeft() ? 1 : 0) - (input.isRight() ? 1 : 0);
         double vert    = (input.isJump() ? 1 : 0) - (input.isSneak() ? 1 : 0);
-        riderInput.put(p.getUniqueId(), new Vector(forward, vert, strafe));
+        Vector prev = riderInput.put(p.getUniqueId(), new Vector(forward, vert, strafe));
+        boolean changed = prev == null
+                || prev.getX() != forward || prev.getY() != vert || prev.getZ() != strafe;
+        if (changed && (forward != 0 || strafe != 0 || vert != 0)) {
+            log.info("[ship-debug] " + p.getName() + " input f=" + forward + " s=" + strafe + " v=" + vert);
+        }
     }
 
     @EventHandler
     public void onDismount(EntityDismountEvent ev) {
         if (!(ev.getEntity() instanceof Player p)) return;
         if (!isShip(ev.getDismounted())) return;
-        riderInput.remove(p.getUniqueId());
         Pig pig = (Pig) ev.getDismounted();
+        if (!allowedDismount.remove(pig.getUniqueId())) {
+            ev.setCancelled(true);
+            return;
+        }
+        riderInput.remove(p.getUniqueId());
         Bukkit.getScheduler().runTask(plugin, () -> despawn(pig));
     }
 
@@ -147,10 +162,45 @@ public final class ShipController implements Listener {
                 velocity = velocity.normalize().multiply(MAX_SPEED);
             }
             pig.setVelocity(velocity);
+
+            UUID dispId = shipToDisplay.get(pig.getUniqueId());
+            if (dispId != null) {
+                Entity disp = Bukkit.getEntity(dispId);
+                if (disp != null) {
+                    disp.teleport(pig.getLocation());
+                }
+            }
         }
     }
 
+    public boolean teleportShipWithRider(Player player, Location target) {
+        Entity v = player.getVehicle();
+        if (!(v instanceof Pig pig) || !isShip(pig)) return false;
+        riderInput.remove(player.getUniqueId());
+        pig.setVelocity(new Vector(0, 0, 0));
+        boolean ok = pig.teleport(target, TeleportFlag.EntityState.RETAIN_PASSENGERS);
+        UUID dispId = shipToDisplay.get(pig.getUniqueId());
+        if (dispId != null) {
+            Entity disp = Bukkit.getEntity(dispId);
+            if (disp != null) disp.teleport(target);
+        }
+        return ok;
+    }
+
+    public void dismountAndDespawn(Player player) {
+        Entity v = player.getVehicle();
+        if (!(v instanceof Pig pig) || !isShip(pig)) return;
+        allowedDismount.add(pig.getUniqueId());
+        player.leaveVehicle();
+        despawn(pig);
+    }
+
     private void despawn(Pig pig) {
+        UUID dispId = shipToDisplay.remove(pig.getUniqueId());
+        if (dispId != null) {
+            Entity disp = Bukkit.getEntity(dispId);
+            if (disp != null) disp.remove();
+        }
         for (Entity passenger : pig.getPassengers()) {
             if (passenger instanceof BlockDisplay) passenger.remove();
         }

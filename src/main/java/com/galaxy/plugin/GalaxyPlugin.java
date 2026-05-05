@@ -59,10 +59,12 @@ public final class GalaxyPlugin extends JavaPlugin {
         sphereBuilder.buildAllOnce(spaceWorld, planetManager.all().values());
 
         teleportService = new TeleportService(getLogger(), spaceWorld, planetManager);
-        proximityTask = ProximityTask.schedule(this, planetManager, teleportService, spaceWorld);
 
         shipController = new ShipController(this);
+        teleportService.setShipController(shipController);
         getServer().getPluginManager().registerEvents(shipController, this);
+
+        proximityTask = ProximityTask.schedule(this, planetManager, teleportService, spaceWorld);
 
         getCommand("space").setExecutor(new SpaceCommand(spaceWorld.getName()));
         getCommand("ship").setExecutor(new ShipCommand(shipController));
