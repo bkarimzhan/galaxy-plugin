@@ -39,6 +39,15 @@ public final class WorldBootstrap {
         w.setThundering(false);
         w.setWeatherDuration(Integer.MAX_VALUE);
         w.setGameRule(org.bukkit.GameRule.DO_MOB_SPAWNING, false);
+        w.setGameRule(org.bukkit.GameRule.DO_DAYLIGHT_CYCLE, false);
+        w.setTime(18000);
+        try {
+            w.setViewDistance(20);
+            w.setSimulationDistance(6);
+            w.setSendViewDistance(20);
+        } catch (Throwable t) {
+            log.warning("Could not set extended view-distance for '" + SPACE + "': " + t.getMessage());
+        }
 
         int removed = 0;
         for (org.bukkit.entity.Entity e : w.getEntitiesByClass(org.bukkit.entity.EnderDragon.class)) {
