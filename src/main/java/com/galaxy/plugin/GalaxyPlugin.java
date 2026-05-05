@@ -5,6 +5,7 @@ import com.galaxy.plugin.commands.ShipCommand;
 import com.galaxy.plugin.commands.SpaceCommand;
 import com.galaxy.plugin.commands.UnshipCommand;
 import com.galaxy.plugin.listeners.ProximityTask;
+import com.galaxy.plugin.listeners.SpaceMobGuard;
 import com.galaxy.plugin.listeners.SpawnListener;
 import com.galaxy.plugin.planets.PlanetManager;
 import com.galaxy.plugin.planets.SphereBuilder;
@@ -66,6 +67,8 @@ public final class GalaxyPlugin extends JavaPlugin {
         planetEarth.setSpawnLocation(spawnPlatform.locationIn(planetEarth));
         getServer().getPluginManager().registerEvents(
                 new SpawnListener(() -> spawnPlatform.locationIn(planetEarth)), this);
+        getServer().getPluginManager().registerEvents(
+                new SpaceMobGuard(spaceWorld.getName()), this);
 
         teleportService = new TeleportService(getLogger(), spaceWorld, planetManager);
 

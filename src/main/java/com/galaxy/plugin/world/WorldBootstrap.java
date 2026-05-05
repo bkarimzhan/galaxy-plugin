@@ -37,7 +37,16 @@ public final class WorldBootstrap {
         w.setStorm(false);
         w.setThundering(false);
         w.setWeatherDuration(Integer.MAX_VALUE);
-        log.info("World '" + SPACE + "' ready (THE_END void — no sky, no clouds).");
+        w.setGameRule(org.bukkit.GameRule.DO_MOB_SPAWNING, false);
+
+        int removed = 0;
+        for (org.bukkit.entity.Entity e : w.getEntitiesByClass(org.bukkit.entity.EnderDragon.class)) {
+            e.remove();
+            removed++;
+        }
+        if (removed > 0) log.info("Removed " + removed + " auto-spawned ender_dragon(s) from '" + SPACE + "'.");
+
+        log.info("World '" + SPACE + "' ready (THE_END void — no sky, no clouds, no dragon).");
         return w;
     }
 
