@@ -157,29 +157,29 @@ public final class GalaxyPlugin extends JavaPlugin {
     private static TerrainPlanetGenerator mercuryGen() {
         return new TerrainPlanetGenerator(new TerrainPlanetGenerator.Profile(
                 Material.COBBLED_DEEPSLATE, Material.STONE, Material.BASALT,
-                64, 14, 0.05, 4, 0.18, 75, Biome.STONY_PEAKS));
+                64, 22, 0.025, 8, 0.10, 78, Biome.STONY_PEAKS));
     }
     private static TerrainPlanetGenerator venusGen() {
         return new TerrainPlanetGenerator(new TerrainPlanetGenerator.Profile(
                 Material.TUFF, Material.GRANITE, Material.MAGMA_BLOCK,
-                64, 6, 0.04, 2, 0.15, 70, Biome.SAVANNA));
+                64, 12, 0.03, 5, 0.10, 72, Biome.SAVANNA));
     }
     private static TerrainPlanetGenerator marsGen() {
         return new TerrainPlanetGenerator(new TerrainPlanetGenerator.Profile(
                 Material.RED_SAND, Material.RED_SANDSTONE, Material.RED_TERRACOTTA,
-                64, 22, 0.04, 6, 0.12, 80, Biome.BADLANDS));
+                64, 35, 0.02, 14, 0.08, 85, Biome.BADLANDS));
     }
     private static FlatPlanetGenerator jupiterGen() { return new FlatPlanetGenerator(Material.WHITE_TERRACOTTA, Material.ORANGE_TERRACOTTA, Biome.WARM_OCEAN); }
     private static FlatPlanetGenerator saturnGen()  { return new FlatPlanetGenerator(Material.SMOOTH_SANDSTONE, Material.SANDSTONE, Biome.WARM_OCEAN); }
     private static TerrainPlanetGenerator uranusGen() {
         return new TerrainPlanetGenerator(new TerrainPlanetGenerator.Profile(
                 Material.PACKED_ICE, Material.BLUE_ICE, Material.ICE,
-                64, 8, 0.04, 3, 0.16, 70, Biome.FROZEN_OCEAN));
+                64, 16, 0.03, 6, 0.10, 75, Biome.FROZEN_OCEAN));
     }
     private static TerrainPlanetGenerator neptuneGen() {
         return new TerrainPlanetGenerator(new TerrainPlanetGenerator.Profile(
                 Material.BLUE_ICE, Material.PACKED_ICE, Material.ICE,
-                64, 10, 0.04, 3, 0.16, 73, Biome.DEEP_FROZEN_OCEAN));
+                64, 18, 0.025, 7, 0.10, 77, Biome.DEEP_FROZEN_OCEAN));
     }
 
     public World getSpaceWorld() { return spaceWorld; }
