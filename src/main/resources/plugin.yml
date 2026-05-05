@@ -1,0 +1,27 @@
+name: Galaxy
+version: ${version}
+main: com.galaxy.plugin.GalaxyPlugin
+api-version: '1.21'
+author: bkarimzhan
+description: Solar-system mechanic — planet worlds + space void + ship entity.
+load: POSTWORLD
+commands:
+  space:
+    description: Teleport to the space world spawn (admin).
+    permission: galaxy.command.space
+    usage: /space
+  ship:
+    description: Spawn a ship in front of you and ride it.
+    permission: galaxy.command.ship
+    usage: /ship
+  leaveplanet:
+    description: Fallback teleport to space when stuck on a planet.
+    permission: galaxy.command.leaveplanet
+    usage: /leaveplanet
+permissions:
+  galaxy.command.space:
+    default: op
+  galaxy.command.ship:
+    default: true
+  galaxy.command.leaveplanet:
+    default: true
