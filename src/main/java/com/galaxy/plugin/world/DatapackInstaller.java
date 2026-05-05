@@ -38,7 +38,7 @@ public final class DatapackInstaller {
             }
             log.info("Datapack 'galaxy' installed at " + dpDir.getAbsolutePath());
         } catch (IOException e) {
-            log.severe("Failed to install galaxy datapack into '" + worldName + "': " + e.getMessage());
+            log.severe("Failed to install galaxy datapack into '" + levelNameWorld + "': " + e.getMessage());
         }
     }
 }
