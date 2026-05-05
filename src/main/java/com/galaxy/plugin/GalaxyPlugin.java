@@ -1,6 +1,7 @@
 package com.galaxy.plugin;
 
 import com.galaxy.plugin.planets.PlanetManager;
+import com.galaxy.plugin.planets.SphereBuilder;
 import com.galaxy.plugin.world.WorldBootstrap;
 import org.bukkit.World;
 import org.bukkit.generator.ChunkGenerator;
@@ -44,6 +45,9 @@ public final class GalaxyPlugin extends JavaPlugin {
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
+
+        SphereBuilder sphereBuilder = new SphereBuilder(getLogger(), getDataFolder());
+        sphereBuilder.buildAllOnce(spaceWorld, planetManager.all().values());
 
         getLogger().info("Galaxy plugin enabled. Worlds: " + spaceWorld.getName()
                 + ", " + planetEarth.getName() + ", " + planetMars.getName());
