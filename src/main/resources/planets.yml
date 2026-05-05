@@ -16,17 +16,17 @@ planets:
     world: planet_earth
     sphere:
       center: [-90, 100, 0]
-      radius: 18
+      radius: 10
       shell: GREEN_CONCRETE
       core: SEA_LANTERN
     spawn:
-      location: [0, 80, 0]
+      location: [0, 81, 0]
       yaw: 0.0
   mars:
     world: planet_mars
     sphere:
-      center: [90, 100, 0]
-      radius: 18
+      center: [150, 100, 0]
+      radius: 6
       shell: RED_CONCRETE
       core: SEA_LANTERN
     spawn:
