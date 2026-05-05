@@ -103,20 +103,21 @@ public final class WorldBootstrap {
 
     public World createPlanetMars() {
         WorldCreator c = new WorldCreator(PLANET_MARS)
-                .generator(new DesertChunkGenerator())
-                .type(WorldType.FLAT)
+                .environment(World.Environment.NORMAL)
+                .type(WorldType.NORMAL)
+                .biomeProvider(new SingleBiomeProvider(Biome.ERODED_BADLANDS))
                 .generateStructures(false);
         World w = Bukkit.createWorld(c);
         if (w == null) {
             log.severe("Failed to create world '" + PLANET_MARS + "'");
             return null;
         }
-        w.setSpawnLocation(new Location(w, 0, 65, 0));
+        w.setSpawnLocation(new Location(w, 0, 120, 0));
         w.getWorldBorder().setCenter(0, 0);
         w.getWorldBorder().setSize(1000);
         w.setGameRule(org.bukkit.GameRule.DO_MOB_SPAWNING, false);
         purgeMonsters(w);
-        log.info("World '" + PLANET_MARS + "' ready (flat desert, border 1000, lifeless).");
+        log.info("World '" + PLANET_MARS + "' ready (vanilla terrain, biome=eroded_badlands, lifeless).");
         return w;
     }
 
@@ -134,6 +135,26 @@ public final class WorldBootstrap {
         w.getWorldBorder().setCenter(0, 0);
         w.getWorldBorder().setSize(500);
         log.info("World '" + PLANET_SUN + "' ready (lava ocean, border 500).");
+        return w;
+    }
+
+    public World createVanillaBiomePlanet(String name, Biome biome, int spawnY, int borderSize, String label) {
+        WorldCreator c = new WorldCreator(name)
+                .environment(World.Environment.NORMAL)
+                .type(WorldType.NORMAL)
+                .biomeProvider(new SingleBiomeProvider(biome))
+                .generateStructures(false);
+        World w = Bukkit.createWorld(c);
+        if (w == null) {
+            log.severe("Failed to create world '" + name + "'");
+            return null;
+        }
+        w.setSpawnLocation(new Location(w, 0, spawnY, 0));
+        w.getWorldBorder().setCenter(0, 0);
+        w.getWorldBorder().setSize(borderSize);
+        w.setGameRule(org.bukkit.GameRule.DO_MOB_SPAWNING, false);
+        purgeMonsters(w);
+        log.info("World '" + name + "' ready (vanilla terrain, biome=" + biome.getKey() + ", " + label + ").");
         return w;
     }
 

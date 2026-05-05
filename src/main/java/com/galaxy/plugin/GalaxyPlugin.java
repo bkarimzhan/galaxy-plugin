@@ -60,12 +60,12 @@ public final class GalaxyPlugin extends JavaPlugin {
         planetEarth = wb.createPlanetEarth();
         planetMars = wb.createPlanetMars();
         planetSun = wb.createPlanetSun();
-        wb.createFlatPlanet(WorldBootstrap.PLANET_MERCURY, mercuryGen(), 65, 500, "stone-rocky");
-        wb.createFlatPlanet(WorldBootstrap.PLANET_VENUS, venusGen(), 65, 500, "granite-volcanic");
+        wb.createVanillaBiomePlanet(WorldBootstrap.PLANET_MERCURY, Biome.STONY_PEAKS, 120, 500, "stony peaks");
+        wb.createVanillaBiomePlanet(WorldBootstrap.PLANET_VENUS, Biome.WINDSWEPT_HILLS, 120, 500, "rocky hills");
         wb.createFlatPlanet(WorldBootstrap.PLANET_JUPITER, jupiterGen(), 65, 500, "gas-giant");
         wb.createFlatPlanet(WorldBootstrap.PLANET_SATURN, saturnGen(), 65, 500, "gas-giant");
-        wb.createFlatPlanet(WorldBootstrap.PLANET_URANUS, uranusGen(), 65, 500, "ice-giant");
-        wb.createFlatPlanet(WorldBootstrap.PLANET_NEPTUNE, neptuneGen(), 65, 500, "ice-giant");
+        wb.createVanillaBiomePlanet(WorldBootstrap.PLANET_URANUS, Biome.FROZEN_PEAKS, 120, 500, "ice peaks");
+        wb.createVanillaBiomePlanet(WorldBootstrap.PLANET_NEPTUNE, Biome.FROZEN_OCEAN, 100, 500, "frozen ocean");
 
         if (spaceWorld == null || planetEarth == null || planetMars == null || planetSun == null) {
             getLogger().severe("Galaxy: world bootstrap failed — disabling plugin.");
@@ -142,14 +142,21 @@ public final class GalaxyPlugin extends JavaPlugin {
     public @Nullable ChunkGenerator getDefaultWorldGenerator(@NotNull String worldName, @Nullable String id) {
         return switch (worldName) {
             case WorldBootstrap.SPACE -> new SpaceChunkGenerator();
-            case WorldBootstrap.PLANET_MARS -> new DesertChunkGenerator();
             case WorldBootstrap.PLANET_SUN -> new LavaChunkGenerator();
-            case WorldBootstrap.PLANET_MERCURY -> mercuryGen();
-            case WorldBootstrap.PLANET_VENUS -> venusGen();
             case WorldBootstrap.PLANET_JUPITER -> jupiterGen();
             case WorldBootstrap.PLANET_SATURN -> saturnGen();
-            case WorldBootstrap.PLANET_URANUS -> uranusGen();
-            case WorldBootstrap.PLANET_NEPTUNE -> neptuneGen();
+            default -> null;
+        };
+    }
+
+    @Override
+    public org.bukkit.generator.BiomeProvider getDefaultBiomeProvider(@NotNull String worldName, @Nullable String id) {
+        return switch (worldName) {
+            case WorldBootstrap.PLANET_MARS    -> new com.galaxy.plugin.world.SingleBiomeProvider(Biome.ERODED_BADLANDS);
+            case WorldBootstrap.PLANET_MERCURY -> new com.galaxy.plugin.world.SingleBiomeProvider(Biome.STONY_PEAKS);
+            case WorldBootstrap.PLANET_VENUS   -> new com.galaxy.plugin.world.SingleBiomeProvider(Biome.WINDSWEPT_HILLS);
+            case WorldBootstrap.PLANET_URANUS  -> new com.galaxy.plugin.world.SingleBiomeProvider(Biome.FROZEN_PEAKS);
+            case WorldBootstrap.PLANET_NEPTUNE -> new com.galaxy.plugin.world.SingleBiomeProvider(Biome.FROZEN_OCEAN);
             default -> null;
         };
     }
