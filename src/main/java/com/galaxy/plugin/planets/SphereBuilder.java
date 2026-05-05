@@ -8,6 +8,7 @@ import org.bukkit.block.Block;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Random;
 import java.util.logging.Logger;
 
 public final class SphereBuilder {
@@ -27,10 +28,12 @@ public final class SphereBuilder {
         }
         log.info("Building star + planet spheres in '" + space.getName() + "'…");
 
+        wipeEndStructures(space);
         buildStar(space);
         for (Planet p : planets) {
             buildSphere(space, p);
         }
+        scatterStars(space, planets);
 
         try {
             flagFile.getParentFile().mkdirs();
@@ -85,6 +88,68 @@ public final class SphereBuilder {
         setBlock(w, c.getBlockX(), c.getBlockY(), c.getBlockZ(), p.sphereCore());
 
         log.info("Mini-sphere '" + p.id() + "' built at " + c.toVector() + " r=" + r);
+    }
+
+    private void wipeEndStructures(World w) {
+        int wiped = 0;
+        for (int x = 90; x <= 110; x++) {
+            for (int z = -10; z <= 10; z++) {
+                for (int y = 40; y <= 60; y++) {
+                    if (clearIfNotAir(w, x, y, z)) wiped++;
+                }
+            }
+        }
+        for (int x = -10; x <= 10; x++) {
+            for (int z = -10; z <= 10; z++) {
+                for (int y = 40; y <= 90; y++) {
+                    if (y >= 99 && y <= 103 && Math.abs(x) <= 3 && Math.abs(z) <= 3) continue;
+                    if (clearIfNotAir(w, x, y, z)) wiped++;
+                }
+            }
+        }
+        log.info("Wiped " + wiped + " End-generated block(s) (exit-portal + spawn-platform).");
+    }
+
+    private boolean clearIfNotAir(World w, int x, int y, int z) {
+        Block b = w.getBlockAt(x, y, z);
+        if (b.getType() == Material.AIR) return false;
+        b.setType(Material.AIR, false);
+        return true;
+    }
+
+    private void scatterStars(World w, Iterable<Planet> planets) {
+        Random rng = new Random(0xC051B33EL);
+        int count = 80;
+        int placed = 0;
+        for (int i = 0; i < count * 4 && placed < count; i++) {
+            double r = 80 + rng.nextDouble() * 120;
+            double theta = rng.nextDouble() * Math.PI * 2;
+            double phi = (rng.nextDouble() - 0.5) * Math.PI;
+            int x = (int) (r * Math.cos(phi) * Math.cos(theta));
+            int y = 100 + (int) (r * Math.sin(phi));
+            int z = (int) (r * Math.cos(phi) * Math.sin(theta));
+
+            if (y < -50 || y > 250) continue;
+            if (insideAnyPlanet(x, y, z, planets, 25)) continue;
+
+            Material m = rng.nextInt(3) == 0 ? Material.SEA_LANTERN : Material.END_ROD;
+            setBlock(w, x, y, z, m);
+            placed++;
+        }
+        log.info("Scattered " + placed + " decorative stars in space.");
+    }
+
+    private boolean insideAnyPlanet(int x, int y, int z, Iterable<Planet> planets, int margin) {
+        for (Planet p : planets) {
+            Location c = p.sphereCenter();
+            int dx = x - c.getBlockX();
+            int dy = y - c.getBlockY();
+            int dz = z - c.getBlockZ();
+            int d2 = dx * dx + dy * dy + dz * dz;
+            int rPad = p.sphereRadius() + margin;
+            if (d2 <= rPad * rPad) return true;
+        }
+        return false;
     }
 
     private static void setBlock(World w, int x, int y, int z, Material m) {
