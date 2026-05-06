@@ -13,6 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public final class ProximityTask extends BukkitRunnable {
 
     private static final int Y_LAUNCH_THRESHOLD = 300;
+    private static final int Y_NIGHT_SKY = 180;
     private static final int APPROACH_PADDING = 6;
     private static final long PERIOD_TICKS = 5L;
 
@@ -45,6 +46,7 @@ public final class ProximityTask extends BukkitRunnable {
             Planet planet = planets.findByWorldName(worldName);
             if (planet != null) {
                 checkPlanetLaunch(p, planet);
+                applyAltitudeSky(p);
             }
         }
     }
@@ -52,6 +54,14 @@ public final class ProximityTask extends BukkitRunnable {
     private void checkPlanetLaunch(Player p, Planet planet) {
         if (p.getLocation().getY() > Y_LAUNCH_THRESHOLD) {
             teleport.toSpaceFromPlanet(p, planet.worldName());
+        }
+    }
+
+    private void applyAltitudeSky(Player p) {
+        if (p.getLocation().getY() > Y_NIGHT_SKY) {
+            p.setPlayerTime(18000L, false);
+        } else if (p.getPlayerTimeOffset() != 0L || !p.isPlayerTimeRelative()) {
+            p.resetPlayerTime();
         }
     }
 

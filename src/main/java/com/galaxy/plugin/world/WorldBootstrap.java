@@ -3,11 +3,14 @@ package com.galaxy.plugin.world;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
 import org.bukkit.block.Biome;
 import org.bukkit.generator.ChunkGenerator;
+import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.plugin.Plugin;
 
 import java.util.logging.Logger;
 
@@ -25,9 +28,11 @@ public final class WorldBootstrap {
     public static final String PLANET_NEPTUNE = "planet_neptune";
 
     private final Logger log;
+    private final NamespacedKey shipKey;
 
-    public WorldBootstrap(Logger log) {
-        this.log = log;
+    public WorldBootstrap(Plugin plugin) {
+        this.log = plugin.getLogger();
+        this.shipKey = new NamespacedKey(plugin, "galaxy_ship");
     }
 
     public World createSpace(org.bukkit.plugin.Plugin plugin) {
@@ -48,7 +53,7 @@ public final class WorldBootstrap {
         w.setStorm(false);
         w.setThundering(false);
         w.setWeatherDuration(Integer.MAX_VALUE);
-        w.setGameRule(org.bukkit.GameRule.DO_MOB_SPAWNING, false);
+        applyLifelessRules(w);
         w.setGameRule(org.bukkit.GameRule.DO_DAYLIGHT_CYCLE, false);
         w.setTime(18000);
         try {
@@ -89,7 +94,7 @@ public final class WorldBootstrap {
         WorldCreator c = new WorldCreator(PLANET_EARTH)
                 .environment(World.Environment.NORMAL)
                 .type(WorldType.NORMAL)
-                .generateStructures(true);
+                .generateStructures(false);
         World w = Bukkit.createWorld(c);
         if (w == null) {
             log.severe("Failed to create world '" + PLANET_EARTH + "'");
@@ -97,7 +102,9 @@ public final class WorldBootstrap {
         }
         w.getWorldBorder().setCenter(0, 0);
         w.getWorldBorder().setSize(1000);
-        log.info("World '" + PLANET_EARTH + "' ready (vanilla normal, border 1000).");
+        applyLifelessRules(w);
+        purgeAllMobs(w);
+        log.info("World '" + PLANET_EARTH + "' ready (vanilla normal, border 1000, lifeless, no structures).");
         return w;
     }
 
@@ -115,8 +122,8 @@ public final class WorldBootstrap {
         w.setSpawnLocation(new Location(w, 0, 120, 0));
         w.getWorldBorder().setCenter(0, 0);
         w.getWorldBorder().setSize(1000);
-        w.setGameRule(org.bukkit.GameRule.DO_MOB_SPAWNING, false);
-        purgeMonsters(w);
+        applyLifelessRules(w);
+        purgeAllMobs(w);
         log.info("World '" + PLANET_MARS + "' ready (vanilla terrain, biome=eroded_badlands, lifeless).");
         return w;
     }
@@ -134,7 +141,9 @@ public final class WorldBootstrap {
         w.setSpawnLocation(new Location(w, 0, 80, 0));
         w.getWorldBorder().setCenter(0, 0);
         w.getWorldBorder().setSize(500);
-        log.info("World '" + PLANET_SUN + "' ready (lava ocean, border 500).");
+        applyLifelessRules(w);
+        purgeAllMobs(w);
+        log.info("World '" + PLANET_SUN + "' ready (lava ocean, border 500, lifeless).");
         return w;
     }
 
@@ -152,8 +161,8 @@ public final class WorldBootstrap {
         w.setSpawnLocation(new Location(w, 0, spawnY, 0));
         w.getWorldBorder().setCenter(0, 0);
         w.getWorldBorder().setSize(borderSize);
-        w.setGameRule(org.bukkit.GameRule.DO_MOB_SPAWNING, false);
-        purgeMonsters(w);
+        applyLifelessRules(w);
+        purgeAllMobs(w);
         log.info("World '" + name + "' ready (vanilla terrain, biome=" + biome.getKey() + ", " + label + ").");
         return w;
     }
@@ -171,20 +180,28 @@ public final class WorldBootstrap {
         w.setSpawnLocation(new Location(w, 0, spawnY, 0));
         w.getWorldBorder().setCenter(0, 0);
         w.getWorldBorder().setSize(borderSize);
-        w.setGameRule(org.bukkit.GameRule.DO_MOB_SPAWNING, false);
-        purgeMonsters(w);
+        applyLifelessRules(w);
+        purgeAllMobs(w);
         log.info("World '" + name + "' ready (" + label + ", border " + borderSize + ", lifeless).");
         return w;
     }
 
-    private void purgeMonsters(World w) {
+    private void applyLifelessRules(World w) {
+        w.setGameRule(org.bukkit.GameRule.DO_MOB_SPAWNING,    false);
+        w.setGameRule(org.bukkit.GameRule.DO_PATROL_SPAWNING, false);
+        w.setGameRule(org.bukkit.GameRule.DO_TRADER_SPAWNING, false);
+        w.setGameRule(org.bukkit.GameRule.DO_INSOMNIA,        false);
+        w.setGameRule(org.bukkit.GameRule.DISABLE_RAIDS,      true);
+    }
+
+    private void purgeAllMobs(World w) {
         int killed = 0;
         for (org.bukkit.entity.Entity e : w.getEntities()) {
-            if (e instanceof org.bukkit.entity.Monster) {
-                e.remove();
-                killed++;
-            }
+            if (!(e instanceof org.bukkit.entity.Mob)) continue;
+            if (e.getPersistentDataContainer().has(shipKey, PersistentDataType.BYTE)) continue;
+            e.remove();
+            killed++;
         }
-        if (killed > 0) log.info("Purged " + killed + " stale monster(s) from '" + w.getName() + "'.");
+        if (killed > 0) log.info("Purged " + killed + " stale mob(s) from '" + w.getName() + "'.");
     }
 }

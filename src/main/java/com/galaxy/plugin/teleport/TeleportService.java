@@ -59,6 +59,8 @@ public final class TeleportService {
             return;
         }
         Location target = planet.spawnIn(w);
+        int surface = w.getHighestBlockYAt(target.getBlockX(), target.getBlockZ()) + 1;
+        if (surface > target.getY()) target.setY(surface);
         if (ships != null && ships.isShip(player.getVehicle())) {
             ships.dismountAndDespawn(player);
         } else if (player.getVehicle() != null) {
