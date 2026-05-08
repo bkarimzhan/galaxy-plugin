@@ -21,6 +21,7 @@ import com.galaxy.plugin.ship.ShipController;
 import com.galaxy.plugin.teleport.TeleportService;
 import com.galaxy.plugin.world.FlatPlanetGenerator;
 import com.galaxy.plugin.world.LavaChunkGenerator;
+import com.galaxy.plugin.world.MarsTerrainGenerator;
 import com.galaxy.plugin.world.SpawnPlatform;
 import com.galaxy.plugin.world.TerrainPlanetGenerator;
 import com.galaxy.plugin.world.WorldBootstrap;
@@ -58,7 +59,7 @@ public final class GalaxyPlugin extends JavaPlugin {
         WorldBootstrap wb = new WorldBootstrap(this);
         spaceWorld = wb.createSpace(this);
         planetEarth = wb.createPlanetEarth();
-        planetMars = wb.createFlatPlanet(WorldBootstrap.PLANET_MARS, marsGen(), 145, 1000, "red mesas (custom terrain)");
+        planetMars = wb.createFlatPlanet(WorldBootstrap.PLANET_MARS, marsGen(), 145, 1000, "rusty plains + craters");
         planetSun = wb.createPlanetSun();
         wb.createFlatPlanet(WorldBootstrap.PLANET_MERCURY, mercuryGen(), 140, 500, "rocky cratered (custom terrain)");
         wb.createFlatPlanet(WorldBootstrap.PLANET_VENUS, venusGen(), 115, 500, "volcanic hills (custom terrain)");
@@ -169,13 +170,8 @@ public final class GalaxyPlugin extends JavaPlugin {
                 0.0045, 0.4, 14.0,
                 100));
     }
-    private static TerrainPlanetGenerator marsGen() {
-        return new TerrainPlanetGenerator(new TerrainPlanetGenerator.Profile(
-                Material.RED_SAND, Material.RED_SANDSTONE, Material.RED_TERRACOTTA,
-                Biome.BADLANDS,
-                85, 55,
-                0.003, 0.7, 12.0,
-                125));
+    private static MarsTerrainGenerator marsGen() {
+        return new MarsTerrainGenerator();
     }
     private static FlatPlanetGenerator jupiterGen() { return new FlatPlanetGenerator(Material.WHITE_TERRACOTTA, Material.ORANGE_TERRACOTTA, Biome.WARM_OCEAN); }
     private static FlatPlanetGenerator saturnGen()  { return new FlatPlanetGenerator(Material.SMOOTH_SANDSTONE, Material.SANDSTONE, Biome.WARM_OCEAN); }
