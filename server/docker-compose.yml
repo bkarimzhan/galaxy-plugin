@@ -1,0 +1,25 @@
+services:
+  paper:
+    image: itzg/minecraft-server:java21
+    container_name: paper
+    restart: unless-stopped
+    ports:
+      - "25565:25565"
+    environment:
+      EULA: "TRUE"
+      TYPE: "PAPER"
+      VERSION: "1.21.8"
+      MEMORY: "5G"
+      USE_AIKAR_FLAGS: "true"
+      DIFFICULTY: "normal"
+      MODE: "survival"
+      ONLINE_MODE: "FALSE"
+      MOTD: "Galaxy Server [DEV]"
+      VIEW_DISTANCE: "12"
+      SIMULATION_DISTANCE: "6"
+      LEVEL: "planet_earth"
+      TZ: "Asia/Almaty"
+    volumes:
+      - ./data:/data
+    tty: true
+    stdin_open: true

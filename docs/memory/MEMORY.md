@@ -1,0 +1,18 @@
+- [VPS server](vps_server.md) — Hetzner Ubuntu 24.04 at 62.238.21.160, mc user key-only, JDK 21 + Gradle 8.10 + Node 20 + Claude Code installed for plugin dev
+- [Auth architecture](project_mixed_server_plan.md) — Leekuan16 (cracked/AuthMe pwd `<AUTHME_PASSWORD>`) + kz_bazelevs (premium/FastLogin), both op4. Add players via RCON only.
+- [Working plugin stack](project_working_stack.md) — verified versions: Paper 1.21.8 + AuthMe 5.7.0 + FastLogin 1.12-kick-toggle + ProtocolLib 5.4.0 on Java 21
+- [Workflow preference](feedback_step_by_step.md) — strict one-command-at-a-time with explanation + confirmation; for stages, name+estimate, then 'next' to advance
+- [Backup discipline](feedback_backups_before_changes.md) — always tar/cp snapshot to /home/mc/minecraft/backups/ BEFORE any state-changing op
+- [Pending cleanup](project_pending_cleanup.md) — temporary NOPASSWD sudo (`/etc/sudoers.d/mc-nopasswd-temp`) must be reverted before production-ready
+- [Education roadmap](project_education_roadmap.md) — 9yo Leekuan16 learns Java in stages: cmd blocks → Skript → real Java Smart-items → OOP. Father is the platform.
+- [itzg compose env](feedback_itzg_compose_env.md) — itzg/minecraft-server regenerates server.properties from compose env on each start; use VIEW_DISTANCE/MEMORY env vars + `up -d --force-recreate`
+- [MV spawn edit](feedback_mv_spawn_edit.md) — `mv modify <world> set spawn` doesn't work in MV 5.6+; edit data/plugins/Multiverse-Core/worlds.yml directly via pyyaml with paper stopped
+- [Datapack ore-disable pitfall](feedback_datapack_ore_override.md) — Paper 1.21 datapack: don't reference `minecraft:ore_diamond` etc directly in placed_feature; use no-op `<your_pack>:empty` configured_feature
+- [Paper plugin scaffold skill](reference_paper_plugin_scaffold.md) — invoke `paper-plugin-scaffold` skill for verified Gradle Kotlin DSL + shadow + paper-api skeleton
+- [Paper 1.21.8 API moves](reference_paper_1_21_8_api_changes.md) — `PlayerInputEvent` is org.bukkit, Attribute prefix `GENERIC_` dropped (`SCALE` not `GENERIC_SCALE`); verify with javap on paper-api jar
+- [Void biome fog gotcha](feedback_void_biome_fog.md) — `Biome.THE_VOID` paints a pale-blue haze even inside THE_END dimension; use `Biome.THE_END` for space/void custom worlds
+- [Galaxy plugin state](project_galaxy_plugin_state.md) — current architecture, 4 version tags, last open issue (terrain flatness fix via vanilla biome generator)
+- [Named version tags](feedback_named_version_tags.md) — when user says "коммит <Russian>" or "назови коммит" → create annotated git tag vN-slug with that Russian title on HEAD, push to remote
+- [Galaxy terminology](feedback_galaxy_terminology.md) — "в космосе/мини-сфера" = decorative ball in `space`; planet name alone = real `planet_<id>` world. Ask which when ambiguous.
+- [Mars terrain approved](project_mars_terrain_design.md) — planet_mars approved design 2026-05-08: MarsTerrainGenerator with craters + layered dust/terracotta/stone + brown_terracotta volcanic peaks. No tunnels.
+- [Simplex noise [-1,1] not [0,1]](feedback_simplex_noise_normalize.md) — Bukkit SimplexOctaveGenerator.noise(...,true) returns [-1,1]; normalize via (n+1)*0.5 before height-mapping or terrain biases low.

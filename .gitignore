@@ -2,7 +2,11 @@
 build/
 .idea/
 .vscode/
-.claude/
+.claude/*
+!.claude/skills/
+*.secret
+*.token
+secrets.*
 *.iml
 out/
 *.class

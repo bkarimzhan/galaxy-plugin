@@ -2,33 +2,18 @@
 
 Цель: кастомный плагин, добавляющий механику «Солнечная система»: planet-миры + космос-void + entity-корабль для перелётов.
 
-## Текущая задача
+## Статус проекта (архивирован 2026-07-06)
 
-**Stage 0 — скелет проекта.** Создать build.gradle.kts / plugin.yml / пустой `GalaxyPlugin.java` так, чтобы `gradle shadowJar` выдавал валидный jar. Кода механики ещё нет, проверяем что инфраструктура работает.
+MVP реализован и работал на VPS (теги v1–v5 + Mars-генератор). Сервер удалён; проект законсервирован для продолжения на новом хостинге. **Начинать отсюда:**
 
-Файл-структура (запланирована):
+- `docs/HISTORY.md` — вся история разработки: решения, грабли, состояние на момент архивации, открытые задачи.
+- `docs/ARCHITECTURE.md` — актуальная архитектура кода (заменяет устаревшие планы).
+- `docs/SERVER-SETUP.md` — воссоздание сервера с нуля на новом VPS.
+- `docs/SESSION-DIGESTS.md` — подробные дайджесты каждой сессии разработки.
+- `docs/memory/` — файлы памяти агента (конденсированные решения).
+- `.claude/skills/` — 8 скиллов Claude Code для работы с сервером и плагином.
 
-```
-/home/mc/galaxy-plugin/
-├── build.gradle.kts
-├── settings.gradle.kts
-├── gradle.properties
-├── .gitignore
-├── README.md
-└── src/main/
-    ├── java/com/galaxy/plugin/
-    │   ├── GalaxyPlugin.java   ← onEnable / onDisable
-    │   ├── config/             ← PlanetsConfig (Stage 2)
-    │   ├── world/              ← SpaceChunkGenerator, DesertChunkGenerator
-    │   ├── planets/            ← Planet record, PlanetManager, SphereBuilder
-    │   ├── teleport/           ← TeleportService
-    │   ├── ship/               ← ShipController
-    │   ├── listeners/          ← ProximityTask (BukkitRunnable, не PlayerMoveEvent!)
-    │   └── commands/           ← /space /ship /leaveplanet
-    └── resources/
-        ├── plugin.yml
-        └── planets.yml         ← конфиг планет
-```
+Разделы ниже описывают контекст на момент активной разработки (май 2026); секции про VPS-хост неактуальны после сноса сервера.
 
 ## Дизайн механики (актуальный, 2026-05-06)
 
@@ -106,7 +91,7 @@ docker restart paper
 | Ник | Тип | Auth | Op | Пароль |
 |---|---|---|---|---|
 | `kz_bazelevs` | premium (Mojang) | FastLogin → sessionserver | level 4 | — (Mojang token) |
-| `Leekuan16` | cracked | AuthMe `/login <pwd>` | level 4 | `G@laxy2026!Cosmos` |
+| `Leekuan16` | cracked | AuthMe `/login <pwd>` | level 4 | `<AUTHME_PASSWORD>` |
 
 **Добавление новых игроков — только через RCON:**
 
@@ -140,7 +125,7 @@ AuthMe 5.7.0, Essentials 2.21.2, EssentialsChat 2.21.2, FastAsyncWorldEdit 2.15.
 ## Lessons learned (важное, не повторять)
 
 ### SSH polling и fail2ban
-Никогда не polling SSH чаще раза в 10 секунд — fail2ban забанит. `maxretry=6`, `bantime=10m` уже настроено в `/etc/fail2ban/jail.d/custom.conf`. Админский IP `45.130.7.107` в whitelist.
+Никогда не polling SSH чаще раза в 10 секунд — fail2ban забанит. `maxretry=6`, `bantime=10m` уже настроено в `/etc/fail2ban/jail.d/custom.conf`. Админский IP `<ADMIN_IP>` в whitelist.
 
 ### Drop-in конфиги
 Все правки sshd / fail2ban / sysctl — в `*.d/*.conf` файлах, не в основных конфигах (затираются при apt-update).
